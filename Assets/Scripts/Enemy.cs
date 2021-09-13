@@ -52,6 +52,12 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        if (other.tag == "Shield")
+        {
+            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+        }
+
 
     }
 }
