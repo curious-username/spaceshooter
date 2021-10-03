@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
-    private GameObject _laserPrefab, _tripleShot, _shield, _rightEngine, _leftEngine;
+    private GameObject _laserPrefab, _tripleShot, _shield, _rightEngine, _leftEngine, _thruster;
     private float _canFire = -1f;
     private int _lives = 3;
     private SpawnManager _spawnManager;
@@ -44,12 +45,12 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+        Thrusters();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            FireLaser();
-            
-            
+            FireLaser();   
         }
+
 
     }
 
@@ -122,10 +123,8 @@ public class Player : MonoBehaviour
             case false:
                 _lives--;
                 _uiManager.UpdateLives(_lives);
-                break;
-            default:
-                //Debug.Log("_isShieldActive is null");
-                break;
+                break;               
+                
 
         }
 
@@ -189,7 +188,6 @@ public class Player : MonoBehaviour
         if(_shield != null) { 
         _isShieldActive = true;
             _powerupSound.Play();
-            //enable shield visualize
             _shield.SetActive(true);
         }
     }
@@ -203,6 +201,21 @@ public class Player : MonoBehaviour
 
     }
     
+    void Thrusters()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if(_thruster != null) { 
+            _speed = 8f;
+            _thruster.SetActive(true);
+            }
+        }
+        else
+        {
+            _speed = 5.5f;
+            _thruster.SetActive(false);
+        }
+    }
 
 
 }
