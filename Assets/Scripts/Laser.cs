@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField]
-    public int speed = 8;
+    private int speed = 8;
 
     void Update()
     {
@@ -30,4 +29,5 @@ public class Laser : MonoBehaviour
         }
 
     }
+
 }

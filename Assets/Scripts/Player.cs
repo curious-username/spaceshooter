@@ -2,42 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
-    private float _speed = 3.5f;
+    private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
-    private GameObject _laserPrefab;
+    private GameObject _laserPrefab, _tripleShot, _shield, _rightEngine, _leftEngine;
     private float _canFire = -1f;
-    [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
     [SerializeField]
-    private GameObject _tripleShot;
-    [SerializeField]
-    private GameObject _shieldUp;
-    [SerializeField]
-    private bool _isTripleShotActive = false;
-    [SerializeField]
-    private bool _isSpeedUpActive = false;
-    [SerializeField]
-    private bool _isShieldActive = false;
-    
+    private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive = false;
     private float _fireRate = 0.5f;
-
-    //variable for isTripleShotActive?
+    private int _score;
+    private UIManager _uiManager;
+    [SerializeField]
+    AudioSource _laserSound, _explosionSound, _powerupSound;
+    
 
 
     void Start()
     {
-        //take the current position = starting position (x,y,z)
         transform.position = new Vector3(0, -3.8f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        
 
         if (_spawnManager == null)
         {
             Debug.LogError("The spawn manager is null.");
         }
+        if(_uiManager == null)
+        {
+            Debug.LogError("The UI Manager is null");
+        }
+
     }
 
     // Update is called once per frame
@@ -47,11 +47,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             FireLaser();
+            
+            
         }
-        
 
     }
 
+    
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -90,7 +92,7 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
 
-        {
+        
             _canFire = Time.time + _fireRate;
             Vector3 offset = new Vector3(0, 1.05f, 0);
 
@@ -102,54 +104,59 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+                Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
             }
-        }
+        //play the laser audio clip
+        _laserSound.Play();
     }
-
-    private void ShieldUp()
-    {
-        if (_isShieldActive)
-        {
-            Destroy(transform.parent.gameObject);
-        }
-        
-        if(_isShieldActive == true)
-        {
-            Instantiate(_shieldUp, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Destroy(_shieldUp.gameObject);
-        }
-    }
-
 
     public void Damage()
     {
-        if(_isShieldActive != true)
-        {
-            _lives--;
-        }
-        else
-        {
-                Destroy(_shieldUp);
-        }
-        
 
-        if (_lives < 1)
+        switch (_isShieldActive)
         {
-            //Communicate with spawn manager
-            //let them know to stop spawning
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
-        }   
+            case true:
+                _isShieldActive = false;
+                _shield.SetActive(false);
+                break;
+            case false:
+                _lives--;
+                _uiManager.UpdateLives(_lives);
+                break;
+            default:
+                //Debug.Log("_isShieldActive is null");
+                break;
+
+        }
+
+
+        switch (_lives)
+        {
+
+            case 2:
+                _rightEngine.SetActive(true);
+                break;
+            case 1:
+                _leftEngine.SetActive(true);
+                break;
+            case 0:
+                _spawnManager.OnPlayerDeath();
+                Destroy(gameObject);
+                _uiManager.UpdateLives(_lives);
+                break;
+            default:
+                break;
+        }
+        _explosionSound.Play();
+
     }
 
+ 
     public void TripleShotActive()
     {
         //tripleShotActive becomes true
         _isTripleShotActive = true;
+        _powerupSound.Play();
         StartCoroutine(TripleShotPowerDown());
 
 
@@ -167,6 +174,7 @@ public class Player : MonoBehaviour
     public void SpeedUpActive()
     {
         _isSpeedUpActive = true;
+        _powerupSound.Play();
         StartCoroutine(SpeedUpPowerDown());
     }
 
@@ -176,20 +184,26 @@ public class Player : MonoBehaviour
         _isSpeedUpActive = false;
     }
 
-
     public void ShieldsActive()
     {
+        if(_shield != null) { 
         _isShieldActive = true;
+            _powerupSound.Play();
+            //enable shield visualize
+            _shield.SetActive(true);
+        }
     }
 
+    public void AddScore(int points)
+    {
 
+        _score += points;
+        _uiManager.ScoreUpdate(_score);
+        
 
-
-
-
-
-
-
+    }
+    
 
 
 }
+

@@ -6,17 +6,13 @@ public class PowerUp : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.0f;
-    private GameObject powerUp;
-    //ID for Powerups
-    //0 = triple shot
-    //1 = speed
-    //2 = shields
     [SerializeField]
     private int _powerupID;
+    
     // Start is called before the first frame update
     void Start()
     {
-        powerUp = GameObject.FindGameObjectWithTag("Player");
+        
     }
 
     // Update is called once per frame
@@ -64,7 +60,6 @@ public class PowerUp : MonoBehaviour
                         Debug.Log("Default Value");
                         break;
                 }
-
                 Destroy(this.gameObject);
             }
         }

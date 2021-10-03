@@ -10,32 +10,22 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
     [SerializeField]
-    private GameObject _tripleShotPrefab;
-    [SerializeField]
-    private GameObject _speedBoost;
-    [SerializeField]
-    private GameObject _shieldUp;
+    private GameObject[] _powerups;
+
 
     void Start()
+    {
+        
+    }
+
+    public void StartSpawning()
     {
         StartCoroutine(SpawnRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-    }
-
-    //spawn game objects every 5 seconds
-
-    //create a coroutine of type IEnumerator -- yield events
     IEnumerator SpawnRoutine()
     {
-
+        yield return new WaitForSeconds(3f);
         //while loop(infinate loop)
         while (_stopSpawning == false)
         {
@@ -44,7 +34,8 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5);
+
+            yield return new WaitForSeconds(3);
 
 
         }
@@ -56,14 +47,10 @@ public class SpawnManager : MonoBehaviour
         //every 3 - 7 seconds, spawn in a powerup
         while (_stopSpawning == false) { 
         
-            Vector3 spawn_shotboost = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            Instantiate(_tripleShotPrefab, spawn_shotboost, Quaternion.identity);
+            Vector3 spawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
 
-            Vector3 spawn_speedboost = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            Instantiate(_speedBoost, spawn_speedboost, Quaternion.identity);
-
-            Vector3 spawn_shieldboost = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            Instantiate(_shieldUp, spawn_shieldboost, Quaternion.identity);
+            int randomPowerUp = Random.Range(0, 3);
+           Instantiate(_powerups[randomPowerUp], spawn, Quaternion.identity);
 
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
