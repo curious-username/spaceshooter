@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     private float _canFire = -1f;
     private int _lives = 3;
     private SpawnManager _spawnManager;
+    private SpriteRenderer _shieldDamage;
+    [SerializeField]
+    private int _shieldLife = 3;
     [SerializeField]
     private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive = false;
     private float _fireRate = 0.5f;
@@ -28,7 +31,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, -3.8f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        
+        _shieldDamage = _shield.GetComponent<SpriteRenderer>();
 
         if (_spawnManager == null)
         {
@@ -117,9 +120,24 @@ public class Player : MonoBehaviour
         switch (_isShieldActive)
         {
             case true:
+                // take hit 2, 1, 0.
+                //change color on sprite renderer
+
+                _shieldLife--;
+                if (_shieldLife == 2) 
+                {
+                    _shieldDamage.color = Color.magenta;
+                }
+                else if(_shieldLife == 1)
+                {
+                    _shieldDamage.color = Color.red;
+                }
+                else { 
                 _isShieldActive = false;
                 _shield.SetActive(false);
+                }
                 break;
+
             case false:
                 _lives--;
                 _uiManager.UpdateLives(_lives);
@@ -149,6 +167,7 @@ public class Player : MonoBehaviour
         _explosionSound.Play();
 
     }
+
 
  
     public void TripleShotActive()

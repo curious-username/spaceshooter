@@ -1578,12 +1578,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1693936795616873611, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.7201463
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693936795616873611, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6115458
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693936795616873611, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 1693936795616873611, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.201
       objectReference: {fileID: 0}
     - target: {fileID: 1693936795616873611, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1616,6 +1624,22 @@ PrefabInstance:
     - target: {fileID: 1693936795616873611, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693936795616873612, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693936795616873612, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693936795616873612, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693936795616873612, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1693936795616873615, guid: 445a0e1bd98935e40bfb0cc5f7cbcd10, type: 3}
       propertyPath: m_Name
@@ -1665,6 +1689,7 @@ MonoBehaviour:
   _rightEngine: {fileID: 2012050554}
   _leftEngine: {fileID: 22259606}
   _thruster: {fileID: 2132148092}
+  _shieldLife: 3
   _isShieldActive: 0
   _isTripleShotActive: 0
   _isSpeedUpActive: 0
