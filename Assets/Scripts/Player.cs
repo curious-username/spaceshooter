@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
@@ -14,15 +13,15 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private SpawnManager _spawnManager;
     private SpriteRenderer _shieldDamage;
-    [SerializeField]
     private int _shieldLife = 3;
-    [SerializeField]
     private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive = false;
     private float _fireRate = 0.5f;
     private int _score;
+    [SerializeField]
+    private float _ammoCount = 15f;
     private UIManager _uiManager;
     [SerializeField]
-    AudioSource _laserSound, _explosionSound, _powerupSound;
+    AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty;
     
 
 
@@ -32,6 +31,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _shieldDamage = _shield.GetComponent<SpriteRenderer>();
+        
 
         if (_spawnManager == null)
         {
@@ -41,18 +41,23 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UI Manager is null");
         }
-
-    }
+        
+    }   
 
     // Update is called once per frame
     void Update()
     {
         CalculateMovement();
         Thrusters();
+        //AmmoRegen(); Ammo Regen feature
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             FireLaser();   
         }
+        
+
+
 
 
     }
@@ -91,27 +96,37 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11, transform.position.y, 0);
         }
+        
     }
 
     void FireLaser()
     {
 
         
-            _canFire = Time.time + _fireRate;
-            Vector3 offset = new Vector3(0, 1.05f, 0);
+        _canFire = Time.time + _fireRate;
+        Vector3 offset = new Vector3(0, 1.05f, 0);
+        _ammoCount--;
+        if (_ammoCount < 0)
+        {
+            _ammoEmpty.Play();
+            _ammoCount = 0f;
+        }
+
+        else if (_isTripleShotActive == true && _ammoCount >0)
+        {
+            Instantiate(_tripleShot, transform.position, Quaternion.identity);
+            _laserSound.Play();
+        }
+        else if(_ammoCount > 0)
+        {
+            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+            _laserSound.Play();
+        }
+        _uiManager.UpdateAmmoCount(_ammoCount);
 
 
 
-            if (_isTripleShotActive == true)
-            {
-                Instantiate(_tripleShot, transform.position, Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
-            }
-        //play the laser audio clip
-        _laserSound.Play();
+
     }
 
     public void Damage()
@@ -169,7 +184,6 @@ public class Player : MonoBehaviour
     }
 
 
- 
     public void TripleShotActive()
     {
         //tripleShotActive becomes true
@@ -211,6 +225,8 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
     public void AddScore(int points)
     {
 
@@ -219,7 +235,19 @@ public class Player : MonoBehaviour
         
 
     }
-    
+    /*///AMMO REGENERATION FEATURE///
+    void AmmoRegen()
+    {
+
+        _ammoCount += _ammoCount * Time.deltaTime % .008f; 
+
+        if(_ammoCount > 15)
+        {
+            _ammoCount = 15f;
+        }
+        
+    }
+    */
     void Thrusters()
     {
         if (Input.GetKey(KeyCode.LeftShift))
