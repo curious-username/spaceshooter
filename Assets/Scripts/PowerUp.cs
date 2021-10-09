@@ -56,6 +56,9 @@ public class PowerUp : MonoBehaviour
                     case 2:
                         player.ShieldsActive();
                         break;
+                    case 3:
+                        player.AmmoRefill();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

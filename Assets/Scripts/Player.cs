@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    /* Problems:
+     *  - Shield stays at lowest level, needs to turn back to full strength if receive another shield powerup
+     *  - Laser does not destroy when colliding with enemy
+     *  - Ammo powerup works as it should, animation needs work, need transparent background.
+     *  - Need health collectable, a heart, that will add an addtional lives
+     *  - 
+     * 
+     */
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
@@ -225,6 +233,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AmmoRefill()
+    {
+        _ammoCount = 15;
+        _powerupSound.Play();
+        _uiManager.UpdateAmmoCount(_ammoCount);
+    }
 
 
     public void AddScore(int points)

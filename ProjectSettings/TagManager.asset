@@ -9,8 +9,8 @@ TagManager:
   - Shield
   - Score_Text
   - Explosion
-  - New tag
   - Enemy_Laser
+  - Ammo
   layers:
   - Default
   - TransparentFX
