@@ -8,13 +8,13 @@ public class Enemy_Laser : MonoBehaviour
     Player _player;
 
     private float _speed = 8f;
-    // Start is called before the first frame update
+    
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         CalculateMovement();

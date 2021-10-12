@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -83,6 +83,7 @@ public class Enemy : MonoBehaviour
             _enemyExplosion.SetTrigger("OnEnemyDeath");
             Destroy(GetComponent<Collider2D>());
             Destroy(gameObject,2f);
+            Destroy(other.gameObject);
 
 
 

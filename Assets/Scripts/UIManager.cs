@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    //handle to Text
+    
     [SerializeField]
     private Text _scoreText, _gameOverText, _gameRestartText, _ammoCount;
     [SerializeField]
@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     private GameManager _gameManager;
     
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         //assign text component to handle

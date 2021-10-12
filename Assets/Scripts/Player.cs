@@ -5,14 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    /* Problems:
-     *  - Shield stays at lowest level, needs to turn back to full strength if receive another shield powerup
-     *  - Laser does not destroy when colliding with enemy
-     *  - Ammo powerup works as it should, animation needs work, need transparent background.
-     *  - Need health collectable, a heart, that will add an addtional lives
-     *  - 
-     * 
-     */
+
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
@@ -21,6 +14,7 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private SpawnManager _spawnManager;
     private SpriteRenderer _shieldDamage;
+    [SerializeField]
     private int _shieldLife = 3;
     private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive = false;
     private float _fireRate = 0.5f;
@@ -143,8 +137,7 @@ public class Player : MonoBehaviour
         switch (_isShieldActive)
         {
             case true:
-                // take hit 2, 1, 0.
-                //change color on sprite renderer
+
 
                 _shieldLife--;
                 if (_shieldLife == 2) 
@@ -158,6 +151,8 @@ public class Player : MonoBehaviour
                 else { 
                 _isShieldActive = false;
                 _shield.SetActive(false);
+                _shieldDamage.color = Color.white;
+                _shieldLife = 3;
                 }
                 break;
 
@@ -169,7 +164,6 @@ public class Player : MonoBehaviour
 
         }
 
-
         switch (_lives)
         {
 
@@ -179,6 +173,7 @@ public class Player : MonoBehaviour
             case 1:
                 _leftEngine.SetActive(true);
                 break;
+
             case 0:
                 _spawnManager.OnPlayerDeath();
                 Destroy(gameObject);
@@ -194,7 +189,7 @@ public class Player : MonoBehaviour
 
     public void TripleShotActive()
     {
-        //tripleShotActive becomes true
+        
         _isTripleShotActive = true;
         _powerupSound.Play();
         StartCoroutine(TripleShotPowerDown());
@@ -277,7 +272,6 @@ public class Player : MonoBehaviour
             _thruster.SetActive(false);
         }
     }
-
 
 }
 
