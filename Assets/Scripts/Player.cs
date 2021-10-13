@@ -276,6 +276,7 @@ public class Player : MonoBehaviour
 
     public void AddHealth()
     {
+        _powerupSound.Play();
         if (_lives < 3)
         {
             _lives++;
