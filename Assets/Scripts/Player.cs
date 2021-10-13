@@ -166,9 +166,10 @@ public class Player : MonoBehaviour
 
         switch (_lives)
         {
-
+            
             case 2:
                 _rightEngine.SetActive(true);
+                
                 break;
             case 1:
                 _leftEngine.SetActive(true);
@@ -273,5 +274,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AddHealth()
+    {
+        if (_lives < 3)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+            if(_lives == 2)
+            {
+                _leftEngine.SetActive(false);
+            }
+            else if(_lives == 3)
+            {
+                _rightEngine.SetActive(false);
+            }
+
+        }
+    }
 }
 
