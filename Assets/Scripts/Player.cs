@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private int _score;
     [SerializeField]
-    private float _ammoCount = 15f;
+    private int _ammoCount = 15;
     private UIManager _uiManager;
     [SerializeField]
     AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty;
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         if (_ammoCount < 0)
         {
             _ammoEmpty.Play();
-            _ammoCount = 0f;
+            _ammoCount = 0;
         }
 
         else if (_isTripleShotActive == true && _ammoCount >0)

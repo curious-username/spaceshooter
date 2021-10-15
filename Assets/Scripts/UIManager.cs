@@ -35,9 +35,9 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + score.ToString();
     }
 
-    public void UpdateAmmoCount(float ammo)
+    public void UpdateAmmoCount(int ammo)
     {
-        _ammoCount.text = "Ammo: " + ammo.ToString("0");
+        _ammoCount.text = "Ammo: " + ammo.ToString();
     }
     public void UpdateLives(int currentLives)
     {
