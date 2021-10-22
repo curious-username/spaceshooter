@@ -91,12 +91,20 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Shield")
         {
-            
+            _explosionSound.Play();
             _speed = 0;
             _enemyExplosion.SetTrigger("OnEnemyDeath");
             Destroy(gameObject,2f);
             
             
+        }
+
+        if(other.tag == "Big_Laser")
+        {
+            _explosionSound.Play();
+            _speed = 0;
+            _enemyExplosion.SetTrigger("OnEnemyDeath");
+            Destroy(gameObject, 2f);
         }
 
         

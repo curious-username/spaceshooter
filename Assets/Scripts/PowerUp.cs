@@ -19,20 +19,21 @@ public class PowerUp : MonoBehaviour
     void Update()
     {
 
-        PowerupGarbageCollection();
+        //PowerupGarbageCollection();
+        Movement();
 
     }
 
 
-    private void PowerupGarbageCollection()
+    private void Movement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         if (transform.position.y < -3.8f)
         {
             Destroy(this.gameObject);
         }
-
     }
+
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -61,6 +62,9 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 4:
                         player.AddHealth();
+                        break;
+                    case 5:
+                        player.BigLaserActive();
                         break;
                     default:
                         Debug.Log("Default Value");

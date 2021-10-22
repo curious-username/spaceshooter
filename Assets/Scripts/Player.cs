@@ -9,21 +9,21 @@ public class Player : MonoBehaviour
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
-    private GameObject _laserPrefab, _tripleShot, _shield, _rightEngine, _leftEngine, _thruster;
+    private GameObject _laserPrefab, _tripleShot, _shield, _bigLaser, _laserCharge, _rightEngine, _leftEngine, _thruster;
     private float _canFire = -1f;
     private int _lives = 3;
     private SpawnManager _spawnManager;
     private SpriteRenderer _shieldDamage;
-    [SerializeField]
     private int _shieldLife = 3;
-    private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive = false;
+    [SerializeField]
+    private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive, _isBigLaserActive = false;
     private float _fireRate = 0.5f;
     private int _score;
     [SerializeField]
     private int _ammoCount = 15;
     private UIManager _uiManager;
     [SerializeField]
-    AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty;
+    AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty, _chargingSound, _bigLaserSound;
     
 
 
@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _shieldDamage = _shield.GetComponent<SpriteRenderer>();
         
+
 
         if (_spawnManager == null)
         {
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         Thrusters();
+
         //AmmoRegen(); Ammo Regen feature
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -104,31 +106,40 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
 
-        
+
         _canFire = Time.time + _fireRate;
         Vector3 offset = new Vector3(0, 1.05f, 0);
-        _ammoCount--;
-        if (_ammoCount < 0)
-        {
-            _ammoEmpty.Play();
-            _ammoCount = 0;
+        if(_isBigLaserActive == false) { 
+            _ammoCount--;
+            if (_ammoCount < 0)
+            {
+                _ammoEmpty.Play();
+                _ammoCount = 0;
+            }
+
+            else if (_isTripleShotActive == true && _ammoCount > 0)
+            {
+                Instantiate(_tripleShot, transform.position, Quaternion.identity);
+                _laserSound.Play();
+            }
+            else if (_ammoCount > 0)
+            {
+                Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+                _laserSound.Play();
+            }
+
+
+            /*else if(_isBigLaserActive == true)
+             * {
+             *  if (Input.GetKeyDown(KeyCode.Space))
+             *  {
+             * Instantiate(_bigLaser, transform.position, Quarternion.identity);
+             * _bigLaserSound.Play();
+                }
+             }
+             */
+            _uiManager.UpdateAmmoCount(_ammoCount);
         }
-
-        else if (_isTripleShotActive == true && _ammoCount >0)
-        {
-            Instantiate(_tripleShot, transform.position, Quaternion.identity);
-            _laserSound.Play();
-        }
-        else if(_ammoCount > 0)
-        {
-            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
-            _laserSound.Play();
-        }
-        _uiManager.UpdateAmmoCount(_ammoCount);
-
-
-
-
     }
 
     public void Damage()
@@ -223,7 +234,7 @@ public class Player : MonoBehaviour
     public void ShieldsActive()
     {
         if(_shield != null) { 
-        _isShieldActive = true;
+            _isShieldActive = true;
             _powerupSound.Play();
             _shield.SetActive(true);
         }
@@ -292,5 +303,46 @@ public class Player : MonoBehaviour
 
         }
     }
+
+    public void BigLaserActive()
+    {
+        _powerupSound.Play();
+        if (_isBigLaserActive != true) { 
+            _isBigLaserActive = true;
+            if (_bigLaser != null)
+            {
+                _chargingSound.Play();
+                _laserCharge.SetActive(true);
+
+                StartCoroutine(ChargeOff());
+
+            }
+        }
+    }
+        
+    IEnumerator ChargeOff()
+    {
+        yield return new WaitForSeconds(2.0f);
+        _laserCharge.SetActive(false);
+        BigLaser();
+    }
+
+    void BigLaser()
+    {
+        _bigLaserSound.Play();
+        _bigLaser.SetActive(true);
+        StartCoroutine(BigLaserCoolDown());
+    }
+
+
+    IEnumerator BigLaserCoolDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isBigLaserActive = false;
+        _bigLaser.SetActive(false);
+        
+    }
+
+
 }
 

@@ -36,48 +36,91 @@ using UnityEngine;
  */
 public class Big_Laser : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _charging;
+ 
     private ParticleSystem _particleSystem;
     private float _rateOverTimeValue = 1f;
-    
+    private ParticleSystem.EmissionModule _emission;
+    [SerializeField]
+    private float _countDown = 3;
+    private Player _player;
 
-    
+
+
+
 
     void Start()
     {
-        _particleSystem = _charging.GetComponent<ParticleSystem>();
+        _particleSystem = GetComponent<ParticleSystem>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
         ImmaFireMahLaser();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        var _emission = _particleSystem.emission;
+        _emission = _particleSystem.emission;
         _emission.rateOverTime = _rateOverTimeValue;
-        if(_rateOverTimeValue < 800f) { 
-        _rateOverTimeValue += 250f * Time.deltaTime * 1.5f;
-        }
     }
 
 
 
-    void ImmaFireMahLaser() { 
+    void ImmaFireMahLaser()
+    {
+
+        _rateOverTimeValue = 20f;
+        StartCoroutine(CountDown());
+        
+        
+
+
+
+
+
         //start charging at 0, max 800
         //turn on object
         //increase by 250 
         //turn off
         //fire laser
-        _charging.SetActive(true);
+    }
+
+    IEnumerator CountDown()
+    {
+            while(_countDown > 0)
+        {
+            yield return new WaitForSeconds(1.0f);
+            _countDown--;
+            _rateOverTimeValue -= 3f;
+        }
+        _rateOverTimeValue = 0;
+        _player.BigLaserActive();
+        
+        _countDown = 3;
+        while(_countDown > 0)
+        {
+            yield return new WaitForSeconds(1.0f);
+            _countDown--;
+        }
+
+        
+        
 
         
     }
 
 
 
+
+   
     void OnGUI()
     {
-        _rateOverTimeValue = GUI.HorizontalSlider(new Rect(0, 0, 0, 0), _rateOverTimeValue, 0.0f, 800.0f);
+        _rateOverTimeValue = GUI.HorizontalSlider(new Rect(0, 0, 0, 0), _rateOverTimeValue, 0.0f, 20.0f);
+        
+
     }
+
+
+
+
 
 }
