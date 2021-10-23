@@ -11,6 +11,7 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
+    private int bigLaserCount;
 
 
     void Start()
@@ -50,7 +51,20 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
 
             int randomPowerUp = Random.Range(0, 6);
+            if(randomPowerUp == 6)
+            {
+                bigLaserCount++;
+                if (bigLaserCount == 3)
+                {
+                    Instantiate(_powerups[randomPowerUp], spawn, Quaternion.identity);
+                }
+                continue;
+
+
+            }
+            else { 
            Instantiate(_powerups[randomPowerUp], spawn, Quaternion.identity);
+            }
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
     }

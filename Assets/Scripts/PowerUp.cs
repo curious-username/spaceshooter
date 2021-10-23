@@ -19,7 +19,6 @@ public class PowerUp : MonoBehaviour
     void Update()
     {
 
-        //PowerupGarbageCollection();
         Movement();
 
     }
