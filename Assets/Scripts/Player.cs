@@ -5,21 +5,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
     private GameObject _laserPrefab, _tripleShot, _shield, _bigLaser, _laserCharge, _rightEngine, _leftEngine, _thruster;
     private float _canFire = -1f;
     private int _lives = 3;
+    [SerializeField]
+    private float _thrusterLife = 20f;
     private SpawnManager _spawnManager;
     private SpriteRenderer _shieldDamage;
     private int _shieldLife = 3;
-    [SerializeField]
     private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive, _isBigLaserActive = false;
     private float _fireRate = 0.5f;
     private int _score;
-    [SerializeField]
     private int _ammoCount = 15;
     private UIManager _uiManager;
     [SerializeField]
@@ -52,8 +51,6 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         Thrusters();
-
-        //AmmoRegen(); Ammo Regen feature
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -128,16 +125,6 @@ public class Player : MonoBehaviour
                 _laserSound.Play();
             }
 
-
-            /*else if(_isBigLaserActive == true)
-             * {
-             *  if (Input.GetKeyDown(KeyCode.Space))
-             *  {
-             * Instantiate(_bigLaser, transform.position, Quarternion.identity);
-             * _bigLaserSound.Play();
-                }
-             }
-             */
             _uiManager.UpdateAmmoCount(_ammoCount);
         }
     }
@@ -256,32 +243,35 @@ public class Player : MonoBehaviour
         
 
     }
-    /*///AMMO REGENERATION FEATURE///
-    void AmmoRegen()
-    {
 
-        _ammoCount += _ammoCount * Time.deltaTime % .008f; 
-
-        if(_ammoCount > 15)
-        {
-            _ammoCount = 15f;
-        }
-        
-    }
-    */
     void Thrusters()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if(_thruster != null) { 
-            _speed = 8f;
+            _speed = 12f;
             _thruster.SetActive(true);
+            _thrusterLife = _thrusterLife - Time.deltaTime - 0.02f;
+            _uiManager.ThrusterUpdate(_thrusterLife);
+
+                if (_thrusterLife < 1)
+                {
+                    _thrusterLife = 0;
+                    _speed = 5.5f;
+                    _thruster.SetActive(false);
+                }
             }
         }
         else
         {
             _speed = 5.5f;
             _thruster.SetActive(false);
+            _thrusterLife = _thrusterLife + Time.deltaTime + 0.007f;
+            _uiManager.ThrusterUpdate(_thrusterLife);
+            if(_thrusterLife > 20)
+            {
+                _thrusterLife = 20;
+            }
         }
     }
 
