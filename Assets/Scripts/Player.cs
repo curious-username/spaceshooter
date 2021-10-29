@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     [SerializeField]
     AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty, _chargingSound, _bigLaserSound;
+    [SerializeField]
+    private Sprite[] _playerLeft, _playerRight;
+    private SpriteRenderer _spriteRenderer;
+    private CameraShake _playerShake;
     
 
 
@@ -32,7 +36,8 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _shieldDamage = _shield.GetComponent<SpriteRenderer>();
-        
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _playerShake = GameObject.Find("Camera").GetComponent<CameraShake>();
 
 
         if (_spawnManager == null)
@@ -70,6 +75,30 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            for(int i = 0; i < 9; i++)
+            {
+                _spriteRenderer.sprite = _playerLeft[i];
+            }
+        }
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            for(int i = 0; i < 9; i++)
+            {
+                _spriteRenderer.sprite = _playerRight[i];
+            }
+            
+        }
+
+        else
+        {
+            _spriteRenderer.sprite = _playerLeft[0];
+        }
+        
+
+
 
         if (_isSpeedUpActive == false)
         {
@@ -132,6 +161,8 @@ public class Player : MonoBehaviour
     public void Damage()
     {
 
+        
+
         switch (_isShieldActive)
         {
             case true:
@@ -156,6 +187,7 @@ public class Player : MonoBehaviour
 
             case false:
                 _lives--;
+                _playerShake.ActivateShake();
                 _uiManager.UpdateLives(_lives);
                 break;               
                 
@@ -167,7 +199,6 @@ public class Player : MonoBehaviour
             
             case 2:
                 _rightEngine.SetActive(true);
-                
                 break;
             case 1:
                 _leftEngine.SetActive(true);
