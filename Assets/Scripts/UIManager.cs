@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
         
         _gameManager = GameObject.Find("GameManager").GetComponent <GameManager> ();
         _scoreText.text = "Score: " + 0;
-        _ammoCount.text = "Ammo: " + 15;
+        _ammoCount.text = "Ammo: " + 15 + " / 15";
         _thrusterPower.fillAmount = 1;
         _gameOverText.gameObject.SetActive(false);
         _gameRestartText.gameObject.SetActive(false);
@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmoCount(int ammo)
     {
-        _ammoCount.text = "Ammo: " + ammo.ToString();
+        _ammoCount.text = "Ammo: " + ammo.ToString() + " / 15";
     }
     public void UpdateLives(int currentLives)
     {

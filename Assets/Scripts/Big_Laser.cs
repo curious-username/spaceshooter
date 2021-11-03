@@ -71,17 +71,6 @@ public class Big_Laser : MonoBehaviour
         _rateOverTimeValue = 20f;
         StartCoroutine(CountDown());
         
-        
-
-
-
-
-
-        //start charging at 0, max 800
-        //turn on object
-        //increase by 250 
-        //turn off
-        //fire laser
     }
 
     IEnumerator CountDown()

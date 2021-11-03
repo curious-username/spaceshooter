@@ -11,14 +11,16 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
-    private int bigLaserCount;
+    [SerializeField]
+    private int _bigLaserCount;
+    private float _randomNumber;
+    private int _randomPowerup;
+    
 
-
-    void Start()
+    private void Update()
     {
         
     }
-
     public void StartSpawning()
     {
         StartCoroutine(SpawnRoutine());
@@ -30,11 +32,13 @@ public class SpawnManager : MonoBehaviour
         //while loop(infinate loop)
         while (_stopSpawning == false)
         {
-
-
-            Vector3 spawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+            
+            
+            Vector3 spawn = new Vector3(_randomNumber, 7, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+
+
 
             yield return new WaitForSeconds(3);
 
@@ -46,25 +50,26 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnPowerupRoutine()
     {
         //every 3 - 7 seconds, spawn in a powerup
-        while (_stopSpawning == false) { 
-        
-            Vector3 spawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+        while (_stopSpawning == false) {
 
-            int randomPowerUp = Random.Range(0, 6);
-            if(randomPowerUp == 6)
+            _randomPowerup = Random.Range(0, 6);
+            _randomNumber = Random.Range(-8f, 8f);
+            Vector3 spawn = new Vector3(_randomNumber, 7, 0);            
+            
+            if (_bigLaserCount == 3)
             {
-                bigLaserCount++;
-                if (bigLaserCount == 3)
-                {
-                    Instantiate(_powerups[randomPowerUp], spawn, Quaternion.identity);
-                }
-                continue;
-
+                Instantiate(_powerups[5], spawn, Quaternion.identity);
+                _bigLaserCount = 0;
 
             }
-            else { 
-           Instantiate(_powerups[randomPowerUp], spawn, Quaternion.identity);
+            else
+            {
+                _randomPowerup = Random.Range(0, 5);
+                Instantiate(_powerups[_randomPowerup], spawn, Quaternion.identity);
+                _bigLaserCount++;
             }
+
+
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
     }

@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 4.0f;
+
     //private float _randomize;
     private Player _player;
     //private float _laserFire;
@@ -13,13 +14,19 @@ public class Enemy : MonoBehaviour
     private GameObject _EnemyLaserPrefab;
     //handle to animator component
     Animator _enemyExplosion;
-    
     AudioSource _explosionSound;
-    
-    
+    private bool _dirRight = true;
+    private float _randomPosition;
+
+
+
+
+
 
     void Start()
     {
+        StartCoroutine(NumberGenerator());
+        StartCoroutine(LaserFire());
         _player = GameObject.Find("Player").GetComponent<Player>();
         if (_player == null) 
         {
@@ -36,23 +43,55 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Explosion Sound null");
         }
-        StartCoroutine(LaserFire());
+        
 
 
 
-    }
+}
 
     
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        if (transform.position.y <= -6) { 
-            Random.InitState(System.DateTime.Now.Millisecond);
-            transform.position = new Vector3(Random.Range(-9.0f, 9.0f), 6.5f, 0);
-        }
-        
+
+        EnemyMovement();
+
     }
 
+    void EnemyMovement()
+    {
+        
+        
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+            
+
+        if (_dirRight)
+        {
+            transform.Translate(Vector2.right * _speed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(-Vector2.right * _speed * Time.deltaTime);
+        }
+
+        if (transform.position.x >= _randomPosition)
+        {
+            _dirRight = false;
+        }
+
+        if (transform.position.x <= _randomPosition)
+        {
+            _dirRight = true;
+        }
+
+        if (transform.position.y <= -6)
+        {
+            Random.InitState(System.DateTime.Now.Millisecond);
+            transform.position = new Vector3(Random.Range(-9.0f, 9.0f), 6.5f, 0);
+            Destroy(gameObject);
+        }
+      
+        
+    }
 
     
   private void OnTriggerEnter2D(Collider2D other)
@@ -112,8 +151,22 @@ public class Enemy : MonoBehaviour
 
     IEnumerator LaserFire()
     {
-        var _randomFire = Random.Range(5f, 7f);
+        var _randomWait = Random.Range(0, 5);
+        yield return new WaitForSeconds(_randomWait);    
+        
         Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(_randomFire);
     }
+
+    IEnumerator NumberGenerator()
+    {
+        _randomPosition = Random.Range(-9, 9);
+        yield return new WaitForSeconds(2);
+    }
+
+
+
+
+
+
+
 }
