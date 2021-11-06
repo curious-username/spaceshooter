@@ -28,11 +28,13 @@ public class Player : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private CameraShake _playerShake;
     
+    
 
 
     void Start()
     {
         transform.position = new Vector3(0, -3.8f, 0);
+        
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _shieldDamage = _shield.GetComponent<SpriteRenderer>();
@@ -51,9 +53,11 @@ public class Player : MonoBehaviour
         
     }   
 
-    // Update is called once per frame
+    
     void Update()
     {
+        
+        
         CalculateMovement();
         Thrusters();
 
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour
 
     }
 
-    
+
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");

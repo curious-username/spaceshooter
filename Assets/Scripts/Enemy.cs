@@ -141,6 +141,7 @@ public class Enemy : MonoBehaviour
         if(other.tag == "Big_Laser")
         {
             _explosionSound.Play();
+            _player.AddScore(10);
             _speed = 0;
             _enemyExplosion.SetTrigger("OnEnemyDeath");
             Destroy(gameObject, 2f);
