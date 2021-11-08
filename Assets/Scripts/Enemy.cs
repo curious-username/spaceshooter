@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 4.0f;
 
-    //private float _randomize;
+    private float _speed = 4.0f;
     private Player _player;
-    //private float _laserFire;
     [SerializeField]
     private GameObject _EnemyLaserPrefab;
-    //handle to animator component
     Animator _enemyExplosion;
     AudioSource _explosionSound;
     private bool _dirRight = true;
@@ -26,7 +22,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         StartCoroutine(NumberGenerator());
-        StartCoroutine(LaserFire());
+        
+        //StartCoroutine(LaserFire());
         _player = GameObject.Find("Player").GetComponent<Player>();
         if (_player == null) 
         {
@@ -60,10 +57,10 @@ public class Enemy : MonoBehaviour
     void EnemyMovement()
     {
         
-        
-            transform.Translate(Vector3.down * _speed * Time.deltaTime);
-            
 
+
+        transform.Translate(Vector3.down * Time.deltaTime * _speed);
+        
         if (_dirRight)
         {
             transform.Translate(Vector2.right * _speed * Time.deltaTime);
@@ -82,17 +79,30 @@ public class Enemy : MonoBehaviour
         {
             _dirRight = true;
         }
-
-        if (transform.position.y <= -6)
+        
+        if (transform.position.y <= -5)
         {
             Random.InitState(System.DateTime.Now.Millisecond);
             transform.position = new Vector3(Random.Range(-9.0f, 9.0f), 6.5f, 0);
             Destroy(gameObject);
         }
+
+        
       
         
     }
-
+    /*
+    void EnemyLaser()
+    {
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+            if (transform.position.y < -5f)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+    */
     
   private void OnTriggerEnter2D(Collider2D other)
     {
@@ -110,7 +120,7 @@ public class Enemy : MonoBehaviour
             _speed = 0;
             _enemyExplosion.SetTrigger("OnEnemyDeath");
             Destroy(gameObject, 2f);
-            
+
         }
 
         if (other.tag == "Laser")
@@ -120,9 +130,11 @@ public class Enemy : MonoBehaviour
             _player.AddScore(10);
             _speed = 0;
             _enemyExplosion.SetTrigger("OnEnemyDeath");
-            Destroy(GetComponent<Collider2D>());
-            Destroy(gameObject,2f);
+            Destroy(gameObject, 2f);
             Destroy(other.gameObject);
+            Destroy(GetComponent<Collider2D>());
+            
+            
 
 
 
@@ -147,7 +159,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject, 2f);
         }
 
-        
+  
     }
 
     IEnumerator LaserFire()

@@ -1117,6 +1117,7 @@ MonoBehaviour:
   - {fileID: 8847564990790566505, guid: 11605ff12fd66f442a2f41fd2546b552, type: 3}
   - {fileID: 1674725504526117329, guid: 0b6d814a1f5bd2e488132d52257a3c9e, type: 3}
   _bigLaserCount: 0
+  _spawnController: 0
 --- !u!4 &724310573
 Transform:
   m_ObjectHideFlags: 0
@@ -2276,7 +2277,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1635274364}
-  - component: {fileID: 1635274367}
   - component: {fileID: 1635274366}
   - component: {fileID: 1635274365}
   m_Layer: 0
@@ -7072,19 +7072,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &1635274367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635274363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 795b3cfdc88052446ac122f28e176ef6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _countDown: 3
 --- !u!1 &1661143656
 GameObject:
   m_ObjectHideFlags: 0

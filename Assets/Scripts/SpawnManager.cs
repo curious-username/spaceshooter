@@ -11,50 +11,86 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
-    [SerializeField]
     private int _bigLaserCount;
-    private float _randomNumber;
+    private float _randomSpawnPosition;
+    private int _spawnController = 0;
     private int _randomPowerup;
+
     
 
-    private void Update()
-    {
-        
-    }
+
     public void StartSpawning()
     {
+        StartCoroutine(RandomSpawnPosition());
         StartCoroutine(SpawnRoutine());
         StartCoroutine(SpawnPowerupRoutine());
+        
     }
+
     IEnumerator SpawnRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        
         //while loop(infinate loop)
+
         while (_stopSpawning == false)
         {
+            //if spawn position already called, generate a new Vector3
             
             
-            Vector3 spawn = new Vector3(_randomNumber, 7, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
+            yield return new WaitForSeconds(3f);
+                        
+            if (_spawnController <= 4)
+            {
+                Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
+                GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+                _spawnController++;
+            }
+            else if (_spawnController <= 7)
+            {
+                
+                for (int i = 0; i <= 2; i++)
+                {
+                    EnemySpawnController();
 
-
-
-            yield return new WaitForSeconds(3);
-
-
+                }
+                _spawnController++;
+            }
+            else if (_spawnController <= 9)
+            {
+                for (int i=0; i <= 3; i++)
+                {
+                    EnemySpawnController();
+                }
+                _spawnController++;
+                
+            }
+            else if (_spawnController <= 12)
+            {
+                for (int i=0; i <= 4; i++)
+                {
+                    EnemySpawnController();
+                }
+                _spawnController++;
+            }
+            else
+            {
+                _spawnController = 0;
+            }
+            
         }
 
     }
 
-    IEnumerator SpawnPowerupRoutine()
+
+        IEnumerator SpawnPowerupRoutine()
     {
         //every 3 - 7 seconds, spawn in a powerup
         while (_stopSpawning == false) {
-
+            //_randomSpawnPosition = Random.Range(-8f, 8f);
             _randomPowerup = Random.Range(0, 6);
-            _randomNumber = Random.Range(-8f, 8f);
-            Vector3 spawn = new Vector3(_randomNumber, 7, 0);            
+            //_randomSpawnPosition = Random.Range(-8f, 8f);
+            Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);            
             
             if (_bigLaserCount == 3)
             {
@@ -78,4 +114,26 @@ public class SpawnManager : MonoBehaviour
     {
         _stopSpawning = true;
     }
+
+    IEnumerator RandomSpawnPosition()
+    {
+        _randomSpawnPosition = Random.Range(-8f, 8f);
+
+        yield return new WaitForSeconds(2f);
+    }
+
+    void EnemySpawnController()
+    {
+        Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
+        GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
+        newEnemy.transform.parent = _enemyContainer.transform;
+        if (newEnemy.GetComponent<Transform>().position.x == _randomSpawnPosition)
+        {
+            _randomSpawnPosition = Random.Range(-8f, 8f);
+            newEnemy.transform.Translate(_randomSpawnPosition, 7, 0);
+        }
+
+    }
+    
 }
+
