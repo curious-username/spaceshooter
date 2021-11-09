@@ -172,7 +172,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator NumberGenerator()
     {
-        _randomPosition = Random.Range(-9, 9);
+        _randomPosition = Random.Range(-8, 8);
         yield return new WaitForSeconds(2);
     }
 

@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviour
     private float _randomSpawnPosition;
     private int _spawnController = 0;
     private int _randomPowerup;
+    
 
     
 
@@ -41,9 +42,7 @@ public class SpawnManager : MonoBehaviour
                         
             if (_spawnController <= 4)
             {
-                Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
-                GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
-                newEnemy.transform.parent = _enemyContainer.transform;
+                EnemySpawnController();
                 _spawnController++;
             }
             else if (_spawnController <= 7)
@@ -124,14 +123,9 @@ public class SpawnManager : MonoBehaviour
 
     void EnemySpawnController()
     {
-        Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
+        Vector3 spawn = new Vector3(_randomSpawnPosition, 20, 0);
         GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
         newEnemy.transform.parent = _enemyContainer.transform;
-        if (newEnemy.GetComponent<Transform>().position.x == _randomSpawnPosition)
-        {
-            _randomSpawnPosition = Random.Range(-8f, 8f);
-            newEnemy.transform.Translate(_randomSpawnPosition, 7, 0);
-        }
 
     }
     

@@ -1116,8 +1116,6 @@ MonoBehaviour:
   - {fileID: 6654654703003996401, guid: e0a830afaa1ba844381881bfd7e1ee7f, type: 3}
   - {fileID: 8847564990790566505, guid: 11605ff12fd66f442a2f41fd2546b552, type: 3}
   - {fileID: 1674725504526117329, guid: 0b6d814a1f5bd2e488132d52257a3c9e, type: 3}
-  _bigLaserCount: 0
-  _spawnController: 0
 --- !u!4 &724310573
 Transform:
   m_ObjectHideFlags: 0
