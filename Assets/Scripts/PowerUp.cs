@@ -62,8 +62,12 @@ public class PowerUp : MonoBehaviour
                         player.AddHealth();
                         break;
                     case 5:
+                        player.SlowDown();
+                        break;
+                    case 6:
                         player.BigLaserActive();
                         break;
+                    
                     default:
                         Debug.Log("Default Value");
                         break;

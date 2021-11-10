@@ -11,6 +11,7 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
+    [SerializeField]
     private int _bigLaserCount;
     private float _randomSpawnPosition;
     private int _spawnController = 0;
@@ -87,19 +88,19 @@ public class SpawnManager : MonoBehaviour
         //every 3 - 7 seconds, spawn in a powerup
         while (_stopSpawning == false) {
             //_randomSpawnPosition = Random.Range(-8f, 8f);
-            _randomPowerup = Random.Range(0, 6);
+            _randomPowerup = Random.Range(0, 7);
             //_randomSpawnPosition = Random.Range(-8f, 8f);
             Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);            
             
             if (_bigLaserCount == 3)
             {
-                Instantiate(_powerups[5], spawn, Quaternion.identity);
+                Instantiate(_powerups[6], spawn, Quaternion.identity);
                 _bigLaserCount = 0;
 
             }
             else
             {
-                _randomPowerup = Random.Range(0, 5);
+                _randomPowerup = Random.Range(0, 6);
                 Instantiate(_powerups[_randomPowerup], spawn, Quaternion.identity);
                 _bigLaserCount++;
             }
@@ -116,16 +117,21 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator RandomSpawnPosition()
     {
-        _randomSpawnPosition = Random.Range(-8f, 8f);
+        _randomSpawnPosition = Random.Range(-9f, 9f);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1);
     }
 
     void EnemySpawnController()
     {
-        Vector3 spawn = new Vector3(_randomSpawnPosition, 20, 0);
+        var _randomSpawnPosition = Random.Range(-9f, 9f);
+        Vector3 spawn = new Vector3(_randomSpawnPosition, 10, 0);
         GameObject newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
         newEnemy.transform.parent = _enemyContainer.transform;
+        if (newEnemy.transform.position.x == newEnemy.transform.position.x)
+        {
+            _randomSpawnPosition = Random.Range(-9f, 9f);
+        }
 
     }
     

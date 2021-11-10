@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     private Player _player;
     [SerializeField]
     private GameObject _EnemyLaserPrefab;
+    private bool _isEnemyTouching = false;
     Animator _enemyExplosion;
     AudioSource _explosionSound;
     private bool _dirRight = true;
@@ -57,29 +58,9 @@ public class Enemy : MonoBehaviour
     void EnemyMovement()
     {
         
-
-
         transform.Translate(Vector3.down * Time.deltaTime * _speed);
-        
-        if (_dirRight)
-        {
-            transform.Translate(Vector2.right * _speed * Time.deltaTime);
-        }
-        else
-        {
-            transform.Translate(-Vector2.right * _speed * Time.deltaTime);
-        }
 
-        if (transform.position.x >= _randomPosition)
-        {
-            _dirRight = false;
-        }
 
-        if (transform.position.x <= _randomPosition)
-        {
-            _dirRight = true;
-        }
-        
         if (transform.position.y <= -5)
         {
             Random.InitState(System.DateTime.Now.Millisecond);
@@ -106,7 +87,7 @@ public class Enemy : MonoBehaviour
     
   private void OnTriggerEnter2D(Collider2D other)
     {
-        
+
 
         if (other.tag == "Player")
         {
