@@ -7,13 +7,12 @@ public class Enemy : MonoBehaviour
 
     private float _speed = 4.0f;
     private Player _player;
+    private GameObject _playerObject;
     [SerializeField]
     private GameObject _EnemyLaserPrefab;
-    private bool _isEnemyTouching = false;
     Animator _enemyExplosion;
     AudioSource _explosionSound;
-    private bool _dirRight = true;
-    private float _randomPosition;
+
 
 
 
@@ -22,30 +21,34 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(NumberGenerator());
-        
-        //StartCoroutine(LaserFire());
-        _player = GameObject.Find("Player").GetComponent<Player>();
-        if (_player == null) 
+
+
+        _playerObject = GameObject.Find("Player");
+        if(_playerObject != null)
         {
-            Debug.Log("_player is null");
+            _player = _playerObject.GetComponent<Player>();
+            if (_player == null)
+            {
+                Debug.Log("_player is null");
+            }
         }
 
+
+        
+
+
         _enemyExplosion = GetComponent<Animator>();
-        if (_enemyExplosion == null) {
+        if (_enemyExplosion == null)
+        {
             Debug.Log("Explosion Animation null");
         }
 
         _explosionSound = GetComponent<AudioSource>();
-        if(_explosionSound == null)
+        if (_explosionSound == null)
         {
             Debug.Log("Explosion Sound null");
         }
-        
-
-
-
-}
+    }
 
     
     void Update()
@@ -59,38 +62,38 @@ public class Enemy : MonoBehaviour
     {
         
         transform.Translate(Vector3.down * Time.deltaTime * _speed);
+        
 
-
+        
         if (transform.position.y <= -5)
         {
-            Random.InitState(System.DateTime.Now.Millisecond);
-            transform.position = new Vector3(Random.Range(-9.0f, 9.0f), 6.5f, 0);
+                    
             Destroy(gameObject);
         }
-
+        
         
       
         
     }
-    /*
-    void EnemyLaser()
-    {
-        {
-            transform.Translate(Vector3.down * _speed * Time.deltaTime);
-            if (transform.position.y < -5f)
-            {
-                Destroy(gameObject);
-            }
-        }
-    }
-    */
+
     
   private void OnTriggerEnter2D(Collider2D other)
     {
 
+        if (other.tag == "Enemy")
+        {
+            
+            transform.position = new Vector3(Random.Range(-9f, 9f), 15, 0);
+            
+
+
+            //Debug.Log("Changing position " + transform.position, this);
+        }
+
 
         if (other.tag == "Player")
         {
+           
             Player _player = other.transform.GetComponent<Player>();
 
             if (_player != null)
@@ -151,11 +154,6 @@ public class Enemy : MonoBehaviour
         Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
     }
 
-    IEnumerator NumberGenerator()
-    {
-        _randomPosition = Random.Range(-8, 8);
-        yield return new WaitForSeconds(2);
-    }
 
 
 

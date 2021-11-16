@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab, _tripleShot, _shield, _bigLaser, _laserCharge, _rightEngine, _leftEngine, _thruster, _slowDown;
     private float _canFire = -1f;
     private int _lives = 3;
-    private float _thrusterBoost = 2;
     [SerializeField]
     private float _thrusterLife = 20f;
     private SpawnManager _spawnManager;
