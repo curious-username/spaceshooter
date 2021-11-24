@@ -629,6 +629,8 @@ RectTransform:
   - {fileID: 1197594609}
   - {fileID: 1817318164}
   - {fileID: 1915390957}
+  - {fileID: 1831300007}
+  - {fileID: 377939140}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -862,12 +864,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377939138}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 1, z: 0}
-  m_LocalScale: {x: 1.0884994, y: 1.0875, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -400, y: -224.17, z: 0}
+  m_LocalScale: {x: 1.132379, y: 1.1313393, z: 1.040312}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 280156060}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &490446036
 GameObject:
@@ -1108,6 +1110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 2557722128622327011, guid: 3cec7d9514d105b4a80b4b6afa05c034, type: 3}
+  _missleFireEnemyPrefab: {fileID: 4167805406834647253, guid: e2d7269ba57e75f459fb7a52a8e7d6bc, type: 3}
   _enemyContainer: {fileID: 724310571}
   _powerups:
   - {fileID: 7902068712207397943, guid: d28d3ebdec695944c81a3a06bddb686f, type: 3}
@@ -1497,10 +1500,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 393237072, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
-      propertyPath: _explosion
-      value: 
-      objectReference: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}
-    - target: {fileID: 393237072, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
       propertyPath: _explosionSound
       value: 
       objectReference: {fileID: 299829816}
@@ -1551,10 +1550,6 @@ PrefabInstance:
     - target: {fileID: 7844389833654851349, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
       propertyPath: m_Name
       value: Asteroid
-      objectReference: {fileID: 0}
-    - target: {fileID: 7844389833654851349, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
@@ -1903,7 +1898,7 @@ Transform:
   m_Children:
   - {fileID: 1155659728}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1284323966
 GameObject:
@@ -7671,7 +7666,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.29
+      scalar: 0.13
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8252,7 +8247,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -12145,7 +12140,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 044cf6ea43e778c48a98ab57f66c8933, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12295,11 +12290,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831300006}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.41249996, y: -2.3625002, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -399.57086, y: -227.6853, z: 0}
+  m_LocalScale: {x: 1.040312, y: 1.040312, z: 1.040312}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 280156060}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1831300008
 AudioSource:

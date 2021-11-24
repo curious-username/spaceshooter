@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject _enemyPrefab, _missleFireEnemyPrefab;
     [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
@@ -34,8 +34,17 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
 
-            _enemyWave = Random.Range(0, 6);
-            if (_enemyWave < 2)
+            _enemyWave = Random.Range(1,1);
+            if(_enemyWave == 1)
+            {
+                _enemyXPosition = Random.Range(-7, 7);
+                Vector3 spawn = new Vector3(_enemyXPosition, 8, 0);
+                newEnemy = Instantiate(_missleFireEnemyPrefab, spawn, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+                yield return new WaitForSeconds(3.0f);
+            }
+
+            if (_enemyWave == 2)
             {
                 _enemyXPosition = Random.Range(-9, 9);
                 for (int i = 0; i < 2; i++)
@@ -45,11 +54,10 @@ public class SpawnManager : MonoBehaviour
                     {
                         spawnX = -9.0f + (3.5f * i);
                     }
-                    Vector3 spawn = new Vector3(spawnX, 10, 0);
+                    Vector3 spawn = new Vector3(spawnX, 8, 0);
                     newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
-                _enemyWave++;
             }
             else if (_enemyWave < 4)
             {
@@ -61,11 +69,10 @@ public class SpawnManager : MonoBehaviour
                     {
                         spawnX = -9.0f + (3.5f * i);
                     }
-                    Vector3 spawn = new Vector3(spawnX, 10, 0);
+                    Vector3 spawn = new Vector3(spawnX, 8, 0);
                     newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
-                _enemyWave++;
             }
             else if(_enemyWave < 6)
             {
@@ -77,11 +84,10 @@ public class SpawnManager : MonoBehaviour
                     {
                         spawnX = -9.0f + (3.5f * i);
                     }
-                    Vector3 spawn = new Vector3(spawnX, 10, 0);
+                    Vector3 spawn = new Vector3(spawnX, 8, 0);
                     newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
-                _enemyWave++;
             }
 
             yield return new WaitForSeconds(3.0f);
@@ -98,7 +104,7 @@ public class SpawnManager : MonoBehaviour
             float _randomSpawnPosition = Random.Range(-9.0f, 9.0f);
             Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
             
-            _randomPowerup = Random.Range(-9, 9);
+            _randomPowerup = Random.Range(0, 7);
             if (_bigLaserCount == 5)
             {
                 Instantiate(_powerups[6], spawn, Quaternion.identity);

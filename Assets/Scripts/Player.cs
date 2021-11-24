@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
         }
         else if(_isSlowDownActive)
         {
-            transform.Translate(direction * (_speed * Time.deltaTime / 2));
+            transform.Translate(direction * (_speed * Time.deltaTime / _speedMultiplier));
         }
         else
         {
@@ -345,43 +345,35 @@ public class Player : MonoBehaviour
 
     public void BigLaserActive()
     {
+        _isBigLaserActive = true;
         _powerupSound.Play();
-        if (_isBigLaserActive != true) { 
-            _isBigLaserActive = true;
-            if (_bigLaser != null)
-            {
-                _chargingSound.Play();
-                _laserCharge.SetActive(true);
-
-                StartCoroutine(ChargeOff());
-
-            }
+        if (_isBigLaserActive == true) 
+        { 
+            StartCoroutine(BigLaser());
         }
     }
         
-    IEnumerator ChargeOff()
+    IEnumerator BigLaser()
     {
-        yield return _twoSecondsYieldTime;
-        _laserCharge.SetActive(false);
-        BigLaser();
-    }
 
-    void BigLaser()
-    {
+        _chargingSound.Play();
+        _laserCharge.SetActive(true);
+
+        yield return _twoSecondsYieldTime;
+
+        _laserCharge.SetActive(false);
         _bigLaserSound.Play();
         _bigLaser.SetActive(true);
-        StartCoroutine(BigLaserCoolDown());
-    }
 
-
-    IEnumerator BigLaserCoolDown()
-    {
         yield return _fiveSecondsYieldTime;
-        _isBigLaserActive = false;
+
         _bigLaser.SetActive(false);
-        
+        _isBigLaserActive = false;
+
+
     }
-    
+
+  
     
     public void SlowDown()
     {

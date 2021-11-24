@@ -11,18 +11,23 @@ public class CameraShake : MonoBehaviour
 
     private void Update()
     {
-        BeginShakeCheck();
         
+
+        ShakeCheck();
         
+
+
     }
 
     public void ActivateShake()
     {
+        
         _cameraShakeEnabled = true;
+        
     }
+  
 
-
-    void BeginShakeCheck()
+    void ShakeCheck()
     {
 
         if(_cameraShakeEnabled == true)
@@ -33,7 +38,7 @@ public class CameraShake : MonoBehaviour
             float offSetY = Random.value * _shakeAmount * 2 - _shakeAmount;
             camPos.x += offSetX;
             camPos.y += offSetY;
-
+            
             _mainCam.transform.position = camPos;
 
             StartCoroutine(StopShake());
