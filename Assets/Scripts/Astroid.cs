@@ -6,7 +6,8 @@ public class Astroid : MonoBehaviour
 {
     [SerializeField]
     private float _rotateSpeed = 19.0f;
-    private Animator _explosion;
+    [SerializeField]
+    private GameObject _explosion;
     private SpawnManager _spawnManager;
     [SerializeField]
     private AudioSource _explosionSound;
@@ -15,7 +16,7 @@ public class Astroid : MonoBehaviour
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-        _explosion = GetComponent<Animator>();
+        
     }
 
     
@@ -29,11 +30,11 @@ public class Astroid : MonoBehaviour
         
         if (collision.tag == "Laser")
         {
-            _explosion.SetTrigger("Explosion");
+            Instantiate(_explosion, transform.position, Quaternion.identity);
             _explosionSound.Play();
             Destroy(collision.gameObject);
             _spawnManager.StartSpawning();
-            Destroy(gameObject,2f);
+            Destroy(gameObject);
             
         }
     }

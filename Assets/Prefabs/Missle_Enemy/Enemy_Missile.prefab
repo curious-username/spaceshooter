@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5163149860018731482}
   m_Layer: 0
   m_Name: Enemy_Missile
-  m_TagString: Untagged
+  m_TagString: Enemy_Missle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,3 +144,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510ab9102525d6447944a5019df86cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _explosion: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}

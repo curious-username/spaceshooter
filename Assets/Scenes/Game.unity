@@ -1500,6 +1500,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 393237072, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
+      propertyPath: _explosion
+      value: 
+      objectReference: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}
+    - target: {fileID: 393237072, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
       propertyPath: _explosionSound
       value: 
       objectReference: {fileID: 299829816}
@@ -1551,7 +1555,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 185772051, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 800f372821ef3e24c9f085565c02d15a, type: 3}
 --- !u!1 &1155659725
 GameObject:

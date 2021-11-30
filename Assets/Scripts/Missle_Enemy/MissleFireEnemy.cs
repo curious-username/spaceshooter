@@ -5,25 +5,32 @@ using UnityEngine;
 public class MissleFireEnemy : MonoBehaviour
 {
     [SerializeField]
-    GameObject _missile;
-    Player _player;
-    AudioSource _explosionSound;
-    Animator _explosion;
+    private GameObject _missile;
+    private Player _player;
+    private GameObject _playerObject;
+    private AudioSource _explosionSound;
+    private Animator _explosion;
     private float _speed = 3.5f;
     private Vector3 _direction = Vector3.right;
-    
-    
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
-        if(_player == null)
+        Instantiate(_missile, transform.position, Quaternion.identity);
+
+        _playerObject = GameObject.Find("Player");
+        if (_playerObject != null)
         {
-            Debug.Log("Player Not Found");
+            _player = _playerObject.GetComponent<Player>();
+            if (_player == null)
+            {
+                Debug.Log("_player is null");
+            }
         }
-        
+
         _explosionSound = GetComponent<AudioSource>();
         if(_explosionSound == null)
         {
@@ -35,7 +42,7 @@ public class MissleFireEnemy : MonoBehaviour
         {
             Debug.Log("Explosion Animation Not Found");
         }
-        Instantiate(_missile, transform.position, Quaternion.identity);
+        
         
 
     }
@@ -44,7 +51,7 @@ public class MissleFireEnemy : MonoBehaviour
     void Update()
     {
         EnemyMovement();
-        
+
         
         
     }
@@ -63,61 +70,65 @@ public class MissleFireEnemy : MonoBehaviour
             _direction = Vector3.right;
         }
 
-        if(transform.position.x <= -6)
+        if(transform.position.y <= -6)
         {
             Destroy(gameObject);
             
         }
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if(collision.tag == "Player")
+        if (collision.tag == "Player")
         {
+
             Player _player = collision.transform.GetComponent<Player>();
-            if(_player != null)
+
+            if (_player != null)
             {
                 _player.Damage();
             }
-            _explosionSound.Play();
-            Explosion();
+
+            _speed = 0;
+            _explosion.SetTrigger("MissleEnemyDeath");
+            Destroy(gameObject, 2f);
+
         }
 
-        if(collision.tag == "Laser")
+        if (collision.tag == "Laser")
         {
-            _explosionSound.Play();
-            _player.AddScore(10);
-            Explosion();
-            Destroy(collision.gameObject);
-            Destroy(GetComponent<Collider2D>()); // distroys collider
 
+            _explosionSound.Play();
+            _player.AddScore(15);
+            _speed = 0;
+            _explosion.SetTrigger("MissleEnemyDeath");
+            Destroy(gameObject, 2f);
+            Destroy(collision.gameObject);
+            Destroy(GetComponent<Collider2D>());
 
         }
+
 
         if(collision.tag == "Shield")
         {
             _explosionSound.Play();
-            Explosion();
-            
+            _speed = 0;
+            _explosion.SetTrigger("MissleEnemyDeath");
+            Destroy(gameObject, 2f);
         }
 
         if(collision.tag == "Big_Laser")
         {
             _explosionSound.Play();
-            _player.AddScore(10);
-            Explosion();
+            _speed = 0;
+            _explosion.SetTrigger("MissleEnemyDeath");
+            Destroy(gameObject, 2f);
         }
     }
 
-    void Explosion()
-    {
-        _speed = 0;
-        _explosion.SetTrigger("Explosion");
-        Destroy(gameObject, 2f);
 
-
-    }
 
 
 

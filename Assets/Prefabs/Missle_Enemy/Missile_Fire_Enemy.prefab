@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4167805406834647252}
   - component: {fileID: 4167805406834647248}
   - component: {fileID: 498008020592149748}
-  - component: {fileID: 1444792539193922447}
+  - component: {fileID: 6956025793607840763}
   m_Layer: 0
   m_Name: Missile_Fire_Enemy
   m_TagString: MissleFireEnemy
@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _missile: {fileID: 4769456256664586268, guid: 9329691d56709cb499e65a1980247bef, type: 3}
-  _explosion: {fileID: 0}
 --- !u!82 &498008020592149748
 AudioSource:
   m_ObjectHideFlags: 0
@@ -244,7 +243,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &1444792539193922447
+--- !u!95 &6956025793607840763
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -254,7 +253,7 @@ Animator:
   m_GameObject: {fileID: 4167805406834647253}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 73afc7af67d83884089a54f32f0f6c38, type: 2}
+  m_Controller: {fileID: 9100000, guid: efb1ac4de1619dd41804d6c6e1b7e53b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

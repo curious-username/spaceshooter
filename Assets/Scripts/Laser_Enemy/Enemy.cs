@@ -117,10 +117,6 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject, 2f);
             Destroy(other.gameObject);
             Destroy(GetComponent<Collider2D>());
-            
-            
-
-
 
         }
 
@@ -138,6 +134,15 @@ public class Enemy : MonoBehaviour
         {
             _explosionSound.Play();
             _player.AddScore(10);
+            _speed = 0;
+            _enemyExplosion.SetTrigger("OnEnemyDeath");
+            Destroy(gameObject, 2f);
+        }
+
+        if(other.tag == "Enemy_Missle")
+        {
+            _explosionSound.Play();
+            _player.AddScore(20);
             _speed = 0;
             _enemyExplosion.SetTrigger("OnEnemyDeath");
             Destroy(gameObject, 2f);

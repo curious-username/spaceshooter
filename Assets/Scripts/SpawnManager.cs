@@ -34,7 +34,7 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
 
-            _enemyWave = Random.Range(1,1);
+            _enemyWave = Random.Range(1,5);
             if(_enemyWave == 1)
             {
                 _enemyXPosition = Random.Range(-7, 7);
@@ -59,7 +59,7 @@ public class SpawnManager : MonoBehaviour
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
             }
-            else if (_enemyWave < 4)
+            else if (_enemyWave == 3)
             {
                 _enemyXPosition = Random.Range(-9, 9);
                 for (int i = 0; i < 3; i++)
@@ -74,7 +74,7 @@ public class SpawnManager : MonoBehaviour
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
             }
-            else if(_enemyWave < 6)
+            else if(_enemyWave == 4)
             {
                 _enemyXPosition = Random.Range(-9, 9);
                 for (int i = 0; i < 4; i++)

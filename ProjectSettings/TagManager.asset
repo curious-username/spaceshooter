@@ -13,6 +13,8 @@ TagManager:
   - Ammo
   - Big_Laser
   - MissileFireEnemy
+  - MissleFireEnemy
+  - Enemy_Missle
   layers:
   - Default
   - TransparentFX
