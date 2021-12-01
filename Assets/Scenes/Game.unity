@@ -1115,12 +1115,15 @@ MonoBehaviour:
   _powerups:
   - {fileID: 7902068712207397943, guid: d28d3ebdec695944c81a3a06bddb686f, type: 3}
   - {fileID: 1985712805803669205, guid: 6993cee20156c0e4fafe71dae70b4c7b, type: 3}
-  - {fileID: 3988732318683520424, guid: a3eb201bdd5e6f246b532f80dee2fba4, type: 3}
   - {fileID: 6654654703003996401, guid: e0a830afaa1ba844381881bfd7e1ee7f, type: 3}
-  - {fileID: 8847564990790566505, guid: 11605ff12fd66f442a2f41fd2546b552, type: 3}
   - {fileID: 6946510441840133073, guid: b87aeefb69c6ef94784a1bf66d9613e6, type: 3}
+  - {fileID: 3988732318683520424, guid: a3eb201bdd5e6f246b532f80dee2fba4, type: 3}
+  - {fileID: 8847564990790566505, guid: 11605ff12fd66f442a2f41fd2546b552, type: 3}
   - {fileID: 1674725504526117329, guid: 0b6d814a1f5bd2e488132d52257a3c9e, type: 3}
-  _bigLaserCount: 0
+  _enemyWave: 0
+  _randomPowerup: 0
+  _powerupTier1Count: 0
+  _powerupTier2Count: 0
 --- !u!4 &724310573
 Transform:
   m_ObjectHideFlags: 0

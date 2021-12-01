@@ -53,16 +53,16 @@ public class PowerUp : MonoBehaviour
                         player.SpeedUpActive();
                         break;
                     case 2:
-                        player.ShieldsActive();
-                        break;
-                    case 3:
                         player.AmmoRefill();
                         break;
+                    case 3:
+                        player.SlowDown();
+                        break;
                     case 4:
-                        player.AddHealth();
+                        player.ShieldsActive();
                         break;
                     case 5:
-                        player.SlowDown();
+                        player.AddHealth();
                         break;
                     case 6:
                         player.BigLaserActive();

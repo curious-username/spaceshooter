@@ -11,17 +11,14 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
-    [SerializeField]
-    private int _bigLaserCount;
-    private int _enemyWave;
-    private int _randomPowerup;
+    private int _enemyWave, _randomPowerup, _powerupTier1Count, _powerupTier2Count;
     GameObject newEnemy;
     private float _enemyXPosition = -9;
 
 
     public void StartSpawning()
     {
-        //StartCoroutine(RandomSpawnPosition());
+        
         StartCoroutine(SpawnRoutine());
         StartCoroutine(SpawnPowerupRoutine());
 
@@ -98,24 +95,29 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
-        //every 3 - 7 seconds, spawn in a powerup
+        
         while (_stopSpawning == false)
         {
             float _randomSpawnPosition = Random.Range(-9.0f, 9.0f);
             Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
             
-            _randomPowerup = Random.Range(0, 7);
-            if (_bigLaserCount == 5)
+            _randomPowerup = Random.Range(0, 4);
+
+            if(_powerupTier1Count > 3)
+            {
+                Instantiate(_powerups[Random.Range(4, 6)], spawn, Quaternion.identity);
+                _powerupTier1Count = 0;
+                _powerupTier2Count++;
+            }
+            else if(_powerupTier2Count > 3 )
             {
                 Instantiate(_powerups[6], spawn, Quaternion.identity);
-                _bigLaserCount = 0;
-
+                _powerupTier2Count = 0;
             }
             else
             {
-                _randomPowerup = Random.Range(0, 6);
                 Instantiate(_powerups[_randomPowerup], spawn, Quaternion.identity);
-                _bigLaserCount++;
+                _powerupTier1Count++;
             }
 
 
