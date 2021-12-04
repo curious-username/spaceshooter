@@ -1120,10 +1120,6 @@ MonoBehaviour:
   - {fileID: 3988732318683520424, guid: a3eb201bdd5e6f246b532f80dee2fba4, type: 3}
   - {fileID: 8847564990790566505, guid: 11605ff12fd66f442a2f41fd2546b552, type: 3}
   - {fileID: 1674725504526117329, guid: 0b6d814a1f5bd2e488132d52257a3c9e, type: 3}
-  _enemyWave: 0
-  _randomPowerup: 0
-  _powerupTier1Count: 0
-  _powerupTier2Count: 0
 --- !u!4 &724310573
 Transform:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ TagManager:
   - MissileFireEnemy
   - MissleFireEnemy
   - Enemy_Missle
+  - Enemy_Shield
   layers:
   - Default
   - TransparentFX
