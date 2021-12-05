@@ -103,6 +103,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
             
             _randomPowerup = Random.Range(0, 4);
+            
 
             if(_powerupTier1Count > 3)
             {

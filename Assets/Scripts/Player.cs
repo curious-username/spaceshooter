@@ -222,6 +222,7 @@ public class Player : MonoBehaviour
             case 0:
                 _spawnManager.OnPlayerDeath();
                 Destroy(gameObject);
+                _lives = 0;
                 _uiManager.UpdateLives(_lives);
                 break;
             default:

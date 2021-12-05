@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     private GameObject _EnemyLaserPrefab, _enemyShield;
     Animator _enemyExplosion;
     AudioSource _explosionSound;
+    [SerializeField]
+    private bool _isEnemyShieldActive;
 
 
 
@@ -72,16 +74,13 @@ public class Enemy : MonoBehaviour
     
   private void OnTriggerEnter2D(Collider2D other)
     {
-
+        
 
         if (other.tag == "Enemy")
         {
             
             transform.position = new Vector3(Random.Range(-9f, 9f), 15, 0);
             
-
-
-            //Debug.Log("Changing position " + transform.position, this);
         }
 
 
@@ -92,35 +91,59 @@ public class Enemy : MonoBehaviour
 
             if (_player != null)
             {
-                _player.Damage();
+                if (_isEnemyShieldActive == true)
+                {
+                    _enemyShield.SetActive(false);
+                    _isEnemyShieldActive = false;
+                    _player.Damage();
+                }
+                if(_isEnemyShieldActive == false)
+                {
+                    _player.Damage();
+                    _explosionSound.Play();
+                    _speed = 0;
+                    _enemyExplosion.SetTrigger("OnEnemyDeath");
+                    Destroy(gameObject, 2f);
+                }
             }
-
-            _speed = 0;
-            _enemyExplosion.SetTrigger("OnEnemyDeath");
-            Destroy(gameObject, 2f);
-
         }
 
         if (other.tag == "Laser") 
         {
-            
-            _explosionSound.Play();
+            if(_isEnemyShieldActive == true)
+            {
+                Destroy(gameObject, 2f);
+                Destroy(other.gameObject);
+                _enemyShield.SetActive(false);
+                _isEnemyShieldActive = false;
+            }
+
+            else
+            {
+                _explosionSound.Play();
                 _player.AddScore(10);
                 _speed = 0;
                 _enemyExplosion.SetTrigger("OnEnemyDeath");
                 Destroy(gameObject, 2f);
                 Destroy(other.gameObject);
                 Destroy(GetComponent<Collider2D>());
-
+            }
         }
 
         if (other.tag == "Shield")
         {
-           
-            _explosionSound.Play();
-            _speed = 0;
-            _enemyExplosion.SetTrigger("OnEnemyDeath");
-            Destroy(gameObject,2f);
+           if(_isEnemyShieldActive == true)
+            {
+                _enemyShield.SetActive(false);
+            }
+            else
+            {
+                _explosionSound.Play();
+                _speed = 0;
+                _enemyExplosion.SetTrigger("OnEnemyDeath");
+                Destroy(gameObject, 2f);
+            }
+            
             
             
         }
@@ -144,30 +167,30 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject, 2f);
         }
 
-  
+
+
     }
 
 
     void EnemyLaserFire()
     {
         int _randomNumber = Random.Range(0, 20);
-        if (_randomNumber < 5) 
-        { 
-        Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
-        _enemyShield.SetActive(true);
-        }
-        else if (_randomNumber < 10)
+
+        if (_randomNumber < 10)
         {
             Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
             _enemyShield.SetActive(false);
+            _isEnemyShieldActive = false;
         }
         else if(_randomNumber < 15)
         {
             _enemyShield.SetActive(true);
+            _isEnemyShieldActive = true;
         }
         else
         {
             _enemyShield.SetActive(false);
+            _isEnemyShieldActive = false;
         }
 
 
