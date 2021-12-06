@@ -16,6 +16,7 @@ public class Astroid : MonoBehaviour
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        
     }
 
     
@@ -26,7 +27,8 @@ public class Astroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Laser")
+        
+        if (collision.tag == "Laser")
         {
             Instantiate(_explosion, transform.position, Quaternion.identity);
             _explosionSound.Play();

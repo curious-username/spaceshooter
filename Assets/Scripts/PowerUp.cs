@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField]
     private float _speed = 3.0f;
     [SerializeField]
     private int _powerupID;
@@ -54,17 +53,21 @@ public class PowerUp : MonoBehaviour
                         player.SpeedUpActive();
                         break;
                     case 2:
-                        player.ShieldsActive();
-                        break;
-                    case 3:
                         player.AmmoRefill();
                         break;
+                    case 3:
+                        player.SlowDown();
+                        break;
                     case 4:
-                        player.AddHealth();
+                        player.ShieldsActive();
                         break;
                     case 5:
+                        player.AddHealth();
+                        break;
+                    case 6:
                         player.BigLaserActive();
                         break;
+                    
                     default:
                         Debug.Log("Default Value");
                         break;

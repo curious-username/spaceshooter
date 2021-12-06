@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
     private float _speed = 5.5f;
     private float _speedMultiplier = 2;
     [SerializeField]
-    private GameObject _laserPrefab, _tripleShot, _shield, _bigLaser, _laserCharge, _rightEngine, _leftEngine, _thruster;
+    private GameObject _laserPrefab, _tripleShot, _shield, _bigLaser, _laserCharge, _rightEngine, _leftEngine, _thruster, _slowDown;
     private float _canFire = -1f;
     private int _lives = 3;
     [SerializeField]
@@ -16,23 +17,27 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     private SpriteRenderer _shieldDamage;
     private int _shieldLife = 3;
-    private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive, _isBigLaserActive = false;
+    private bool _isShieldActive, _isTripleShotActive, _isSpeedUpActive, _isBigLaserActive, _isSlowDownActive, _isBoostActive = false;
     private float _fireRate = 0.5f;
     private int _score;
     private int _ammoCount = 15;
     private UIManager _uiManager;
     [SerializeField]
-    AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty, _chargingSound, _bigLaserSound;
+    AudioSource _laserSound, _explosionSound, _powerupSound, _ammoEmpty, _chargingSound, _bigLaserSound, _slowDownSound;
     [SerializeField]
     private Sprite[] _playerLeft, _playerRight;
     private SpriteRenderer _spriteRenderer;
     private CameraShake _playerShake;
+    private WaitForSeconds _fiveSecondsYieldTime = new WaitForSeconds(5.0f);
+    private WaitForSeconds _twoSecondsYieldTime = new WaitForSeconds(2.0f);
     
+
 
 
     void Start()
     {
         transform.position = new Vector3(0, -3.8f, 0);
+        
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _shieldDamage = _shield.GetComponent<SpriteRenderer>();
@@ -51,9 +56,11 @@ public class Player : MonoBehaviour
         
     }   
 
-    // Update is called once per frame
+    
     void Update()
     {
+        
+        
         CalculateMovement();
         Thrusters();
 
@@ -68,7 +75,7 @@ public class Player : MonoBehaviour
 
     }
 
-    
+
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -98,16 +105,24 @@ public class Player : MonoBehaviour
         }
         
 
+        
 
 
-        if (_isSpeedUpActive == false)
-        {
-            transform.Translate(direction * (_speed * Time.deltaTime));
-        }
-        else
+
+        if (_isSpeedUpActive || _isBoostActive)
         {
             transform.Translate(direction * (_speed * _speedMultiplier * Time.deltaTime));
         }
+        else if(_isSlowDownActive)
+        {
+            transform.Translate(direction * (_speed * Time.deltaTime / _speedMultiplier));
+        }
+        else
+        {
+            transform.Translate(direction * (_speed * Time.deltaTime));
+            
+        }
+
 
         if (transform.position.y >= 3.8f)
         {
@@ -207,6 +222,7 @@ public class Player : MonoBehaviour
             case 0:
                 _spawnManager.OnPlayerDeath();
                 Destroy(gameObject);
+                _lives = 0;
                 _uiManager.UpdateLives(_lives);
                 break;
             default:
@@ -227,10 +243,13 @@ public class Player : MonoBehaviour
 
     }
 
+    
+
+    
     IEnumerator TripleShotPowerDown()
     {
-        
-        yield return new WaitForSeconds(5.0f);
+
+        yield return _fiveSecondsYieldTime;
         _isTripleShotActive = false;
 
 
@@ -245,7 +264,7 @@ public class Player : MonoBehaviour
 
     IEnumerator SpeedUpPowerDown()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return _fiveSecondsYieldTime;
         _isSpeedUpActive = false;
     }
 
@@ -279,8 +298,8 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            if(_thruster != null) { 
-            _speed = 12f;
+            if(_thruster != null) {
+            _isBoostActive = true;
             _thruster.SetActive(true);
             _thrusterLife = _thrusterLife - Time.deltaTime - 0.02f;
             _uiManager.ThrusterUpdate(_thrusterLife);
@@ -288,14 +307,14 @@ public class Player : MonoBehaviour
                 if (_thrusterLife < 1)
                 {
                     _thrusterLife = 0;
-                    _speed = 5.5f;
+                    _isBoostActive = false;
                     _thruster.SetActive(false);
                 }
             }
         }
         else
         {
-            _speed = 5.5f;
+            _isBoostActive = false;
             _thruster.SetActive(false);
             _thrusterLife = _thrusterLife + Time.deltaTime + 0.007f;
             _uiManager.ThrusterUpdate(_thrusterLife);
@@ -327,43 +346,52 @@ public class Player : MonoBehaviour
 
     public void BigLaserActive()
     {
+        _isBigLaserActive = true;
         _powerupSound.Play();
-        if (_isBigLaserActive != true) { 
-            _isBigLaserActive = true;
-            if (_bigLaser != null)
-            {
-                _chargingSound.Play();
-                _laserCharge.SetActive(true);
-
-                StartCoroutine(ChargeOff());
-
-            }
+        if (_isBigLaserActive == true) 
+        { 
+            StartCoroutine(BigLaser());
         }
     }
         
-    IEnumerator ChargeOff()
+    IEnumerator BigLaser()
     {
-        yield return new WaitForSeconds(2.0f);
-        _laserCharge.SetActive(false);
-        BigLaser();
-    }
 
-    void BigLaser()
-    {
+        _chargingSound.Play();
+        _laserCharge.SetActive(true);
+
+        yield return _twoSecondsYieldTime;
+
+        _laserCharge.SetActive(false);
         _bigLaserSound.Play();
         _bigLaser.SetActive(true);
-        StartCoroutine(BigLaserCoolDown());
+
+        yield return _fiveSecondsYieldTime;
+
+        _bigLaser.SetActive(false);
+        _isBigLaserActive = false;
+
+
     }
 
-
-    IEnumerator BigLaserCoolDown()
+  
+    
+    public void SlowDown()
     {
-        yield return new WaitForSeconds(5.0f);
-        _isBigLaserActive = false;
-        _bigLaser.SetActive(false);
+        _isSlowDownActive = true;
+        _slowDownSound.Play();
+        _slowDown.SetActive(true);
+        StartCoroutine(TurnOffSlowDown());
+    }
+    IEnumerator TurnOffSlowDown()
+    {
+     
+        yield return _fiveSecondsYieldTime;
+        _isSlowDownActive = false;
+        _slowDown.SetActive(false);
+        
         
     }
-
 
 }
 
