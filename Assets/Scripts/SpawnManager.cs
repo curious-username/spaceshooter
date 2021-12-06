@@ -11,10 +11,11 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
-    private int _enemyWave, _randomPowerup, _powerupTier1Count, _powerupTier2Count;
-    GameObject newEnemy;
+    private int _enemyWave, _randomPowerup, _powerupTier1Count, _powerupTier2Count, _missleEnemyCounter;
+    private GameObject newEnemy;
     private float _enemyXPosition = -9;
-    Enemy _laserEnemy;
+    private Enemy _laserEnemy;
+
 
 
     public void StartSpawning()
@@ -37,7 +38,7 @@ public class SpawnManager : MonoBehaviour
             if (_enemyWave < 10)
             {
                 _enemyXPosition = Random.Range(-9, 9);
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i == 2; i++)
                 {
                     float spawnX = _enemyXPosition + (3.5f * i);
                     if (spawnX >= 9.0f)
@@ -47,6 +48,7 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawn = new Vector3(spawnX, 8, 0);
                     newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
+                    _missleEnemyCounter++;
                 }
             }
             else if (_enemyWave < 20)
@@ -62,6 +64,7 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawn = new Vector3(spawnX, 8, 0);
                     newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
+                    _missleEnemyCounter++;
                 }
             }
             else if(_enemyWave < 30)
@@ -77,17 +80,25 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawn = new Vector3(spawnX, 8, 0);
                     newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
+                    _missleEnemyCounter++;
                 }
             }
-            else
+            else if(_missleEnemyCounter == 4)
             {
                 _enemyXPosition = Random.Range(-7, 7);
                 Vector3 spawn = new Vector3(_enemyXPosition, 8, 0);
                 newEnemy = Instantiate(_missleFireEnemyPrefab, spawn, Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
-                yield return new WaitForSeconds(3.0f);
+                _missleEnemyCounter = 0;
+                yield return new WaitForSeconds(2.0f);
             }
-
+            else
+            {
+                _enemyXPosition = Random.Range(-9, 9);
+                Vector3 spawn = new Vector3(_enemyXPosition, 8, 0);
+                Instantiate(_enemyPrefab, spawn, Quaternion.identity);
+                _missleEnemyCounter++;
+            }
             yield return new WaitForSeconds(3.0f);
         }
 

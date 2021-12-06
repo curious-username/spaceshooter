@@ -6,14 +6,16 @@ public class Enemy : MonoBehaviour
 {
 
     private float _speed = 4.0f;
+    private float _speedMultiplier = 1.0f;
     private Player _player;
     private GameObject _playerObject;
     [SerializeField]
     private GameObject _EnemyLaserPrefab, _enemyShield;
-    Animator _enemyExplosion;
-    AudioSource _explosionSound;
-    [SerializeField]
+    private Animator _enemyExplosion;
+    private AudioSource _explosionSound;
     private bool _isEnemyShieldActive;
+    private float Ydistance, Xdistance;
+   
 
 
 
@@ -52,16 +54,35 @@ public class Enemy : MonoBehaviour
     
     void Update()
     {
-
+        
         EnemyMovement();
-
+        
 
     }
 
     void EnemyMovement()
     {
-        
-        transform.Translate(Vector3.down * Time.deltaTime * _speed);
+
+        if(_playerObject != null)
+        {
+            Ydistance = Mathf.Abs(transform.position.y - _playerObject.transform.position.y) + 1;
+            Xdistance = Mathf.Abs(transform.position.x - _playerObject.transform.position.x) + 1;
+
+            if (Ydistance < 7.5f && Xdistance < 2.0f)
+            {
+                _speedMultiplier = 2.5f;
+
+            }
+            else
+            {
+                _speedMultiplier = 1.0f;
+            }
+        }
+
+
+
+        transform.Translate(Vector3.down * Time.deltaTime * _speed * _speedMultiplier);
+
 
         if (transform.position.y <= -5)
         {
