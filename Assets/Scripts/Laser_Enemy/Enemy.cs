@@ -125,6 +125,7 @@ public class Enemy : MonoBehaviour
                     _speed = 0;
                     _enemyExplosion.SetTrigger("OnEnemyDeath");
                     Destroy(gameObject, 2f);
+                    
                 }
             }
         }
