@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab, _missleFireEnemyPrefab;
+    private GameObject _enemyPrefab, _missleFireEnemyPrefab, _smartEnemy;
     [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
@@ -41,7 +41,6 @@ public class SpawnManager : MonoBehaviour
                 newEnemy = Instantiate(_missleFireEnemyPrefab, spawn, Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
                 _missleEnemyCounter = 0;
-                yield return new WaitForSeconds(2.0f);
             }
             if (_enemyWave < 10)
             {
@@ -58,6 +57,9 @@ public class SpawnManager : MonoBehaviour
                     newEnemy.transform.parent = _enemyContainer.transform;
                     
                 }
+                Vector3 _smartEnemySpawn = new Vector3(_enemyXPosition, 8, 0);
+                newEnemy = Instantiate(_smartEnemy, _smartEnemySpawn, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
                 _missleEnemyCounter++;
             }
             else if (_enemyWave < 20)
@@ -93,13 +95,15 @@ public class SpawnManager : MonoBehaviour
                     
                 }
                 _missleEnemyCounter++;
+ 
             }
 
             else
             {
                 _enemyXPosition = Random.Range(-9, 9);
                 Vector3 spawn = new Vector3(_enemyXPosition, 8, 0);
-                Instantiate(_enemyPrefab, spawn, Quaternion.identity);
+                newEnemy = Instantiate(_enemyPrefab, spawn, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
                 _missleEnemyCounter++;
             }
             yield return new WaitForSeconds(3.0f);
