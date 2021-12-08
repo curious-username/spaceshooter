@@ -1111,6 +1111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 2557722128622327011, guid: 3cec7d9514d105b4a80b4b6afa05c034, type: 3}
   _missleFireEnemyPrefab: {fileID: 4167805406834647253, guid: e2d7269ba57e75f459fb7a52a8e7d6bc, type: 3}
+  _smartEnemy: {fileID: 7711608139266558109, guid: 6b86f39e3e8aa9a42b4596394df91cc8, type: 3}
   _enemyContainer: {fileID: 724310571}
   _powerups:
   - {fileID: 7902068712207397943, guid: d28d3ebdec695944c81a3a06bddb686f, type: 3}
