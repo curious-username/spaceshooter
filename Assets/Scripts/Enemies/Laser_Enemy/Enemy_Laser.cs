@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Laser : MonoBehaviour
@@ -8,11 +6,11 @@ public class Enemy_Laser : MonoBehaviour
 
     void Start()
     {
-        
-        
+
+
     }
 
-    
+
     void Update()
     {
         Movement();
@@ -34,10 +32,10 @@ public class Enemy_Laser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.tag == "Player")
         {
             Player _player = collision.transform.GetComponent<Player>();
-            if(_player != null)
+            if (_player != null)
             {
                 _player.Damage();
             }

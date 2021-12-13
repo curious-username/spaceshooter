@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -15,7 +13,7 @@ public class Enemy : MonoBehaviour
     private AudioSource _explosionSound;
     private bool _isEnemyShieldActive;
     private float Ydistance, Xdistance;
-   
+
 
 
 
@@ -23,12 +21,12 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-     
+
 
         EnemyLaserFire();
 
         _playerObject = GameObject.Find("Player");
-        if(_playerObject != null)
+        if (_playerObject != null)
         {
             _player = _playerObject.GetComponent<Player>();
             if (_player == null)
@@ -48,22 +46,24 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Explosion Sound null");
         }
-        
+
     }
 
-    
+
     void Update()
     {
-        
+
         EnemyMovement();
-        
+
 
     }
 
     void EnemyMovement()
     {
+        transform.Translate(Vector3.down * Time.deltaTime * _speed * _speedMultiplier);
 
-        if(_playerObject != null)
+
+        if (_playerObject != null)
         {
             Ydistance = Mathf.Abs(transform.position.y - _playerObject.transform.position.y) + 1;
             Xdistance = Mathf.Abs(transform.position.x - _playerObject.transform.position.x) + 1;
@@ -81,33 +81,33 @@ public class Enemy : MonoBehaviour
 
 
 
-        transform.Translate(Vector3.down * Time.deltaTime * _speed * _speedMultiplier);
+
 
 
         if (transform.position.y <= -5)
         {
-                    
+
             Destroy(gameObject);
         }
     }
 
 
-    
-  private void OnTriggerEnter2D(Collider2D other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+
 
         if (other.tag == "Enemy")
         {
-            
+
             transform.position = new Vector3(Random.Range(-9f, 9f), 15, 0);
-            
+
         }
 
 
         if (other.tag == "Player")
         {
-            
+
             Player _player = other.transform.GetComponent<Player>();
 
             if (_player != null)
@@ -118,21 +118,21 @@ public class Enemy : MonoBehaviour
                     _isEnemyShieldActive = false;
                     _player.Damage();
                 }
-                if(_isEnemyShieldActive == false)
+                if (_isEnemyShieldActive == false)
                 {
                     _player.Damage();
                     _explosionSound.Play();
                     _speed = 0;
                     _enemyExplosion.SetTrigger("OnEnemyDeath");
                     Destroy(gameObject, 2f);
-                    
+
                 }
             }
         }
 
-        if (other.tag == "Laser") 
+        if (other.tag == "Laser")
         {
-            if(_isEnemyShieldActive == true)
+            if (_isEnemyShieldActive == true)
             {
                 Destroy(gameObject, 2f);
                 Destroy(other.gameObject);
@@ -154,7 +154,7 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Shield")
         {
-           if(_isEnemyShieldActive == true)
+            if (_isEnemyShieldActive == true)
             {
                 _enemyShield.SetActive(false);
             }
@@ -165,12 +165,12 @@ public class Enemy : MonoBehaviour
                 _enemyExplosion.SetTrigger("OnEnemyDeath");
                 Destroy(gameObject, 2f);
             }
-            
-            
-            
+
+
+
         }
 
-        if(other.tag == "Big_Laser")
+        if (other.tag == "Big_Laser")
         {
             _explosionSound.Play();
             _player.AddScore(10);
@@ -179,9 +179,9 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject, 2f);
         }
 
-        if(other.tag == "Enemy_Missle")
+        if (other.tag == "Enemy_Missle")
         {
-            
+
             _explosionSound.Play();
             _player.AddScore(20);
             _speed = 0;
@@ -204,7 +204,7 @@ public class Enemy : MonoBehaviour
             _enemyShield.SetActive(false);
             _isEnemyShieldActive = false;
         }
-        else if(_randomNumber < 15)
+        else if (_randomNumber < 15)
         {
             _enemyShield.SetActive(true);
             _isEnemyShieldActive = true;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TempMissile : MonoBehaviour
@@ -12,20 +10,20 @@ public class TempMissile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        
-         _enemyLocations = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject enemy in _enemyLocations)
+
+
+        _enemyLocations = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in _enemyLocations)
         {
             float distance = Vector2.Distance(enemy.transform.position, transform.position);
-            if(distance <= _enemyDistance)
+            if (distance <= _enemyDistance)
             {
                 _closestEnemy = enemy;
                 _enemyDistance = distance;
             }
 
         }
-        
+
     }
 
     // Update is called once per frame
@@ -40,7 +38,7 @@ public class TempMissile : MonoBehaviour
 
     }
 
-    
+
 
 
 

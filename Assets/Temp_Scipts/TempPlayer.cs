@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TempPlayer : MonoBehaviour
@@ -10,7 +8,7 @@ public class TempPlayer : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

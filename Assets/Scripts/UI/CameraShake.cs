@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraShake : MonoBehaviour
@@ -11,26 +10,26 @@ public class CameraShake : MonoBehaviour
 
     private void Update()
     {
-        
+
 
         ShakeCheck();
-        
+
 
 
     }
 
     public void ActivateShake()
     {
-        
+
         _cameraShakeEnabled = true;
-        
+
     }
-  
+
 
     void ShakeCheck()
     {
 
-        if(_cameraShakeEnabled == true)
+        if (_cameraShakeEnabled == true)
         {
             Vector3 camPos = _mainCam.transform.position;
 
@@ -38,13 +37,13 @@ public class CameraShake : MonoBehaviour
             float offSetY = Random.value * _shakeAmount * 2 - _shakeAmount;
             camPos.x += offSetX;
             camPos.y += offSetY;
-            
+
             _mainCam.transform.position = camPos;
 
             StartCoroutine(StopShake());
 
 
-             
+
         }
     }
 
