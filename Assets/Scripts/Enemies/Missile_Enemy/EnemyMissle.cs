@@ -1,42 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMissle : MonoBehaviour
 {
-    
+
     private GameObject _playerLocation;
-    [SerializeField]
-    private GameObject _explosion;
+    private Animator _explosion;
+    private AudioSource _explosionSound;
     private float _speed = 3.5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
         _playerLocation = GameObject.Find("Player");
-        if(_playerLocation == null)
+        if (_playerLocation == null)
         {
             Debug.Log("Player not found");
         }
 
-        
+        _explosionSound = GetComponent<AudioSource>();
+        if (_explosionSound == null)
+        {
+            Debug.Log("AudioSource not found");
+        }
 
+
+        _explosion = GetComponent<Animator>();
+        if(_explosion == null)
+        {
+            Debug.Log("Animation not found");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_playerLocation != null) {
-            if (gameObject != null) 
-                {
-                    Movement();
-                }
-
-            }
-        if(_playerLocation == null)
+        if (_playerLocation != null)
         {
-            Destroy(gameObject);
+            if (gameObject != null)
+            {
+                Movement();
+            }
+
         }
 
 
@@ -48,15 +53,14 @@ public class EnemyMissle : MonoBehaviour
         Vector3 direction = _playerLocation.transform.position - transform.position;
         float rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rot_z + 90);
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.tag)
         {
-            case "Enemy":
-                Destroy(gameObject);
-                break;
 
             case "Player":
                 Player _player = collision.transform.GetComponent<Player>();
@@ -81,13 +85,18 @@ public class EnemyMissle : MonoBehaviour
                 break;
 
         }
-        
+
 
     }
 
     void Explosion()
     {
-        Instantiate(_explosion, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        _speed = 0;
+        _explosionSound.Play();
+        _explosion.SetTrigger("EnemyExplosion");
+        Destroy(gameObject,2f);
+        Destroy(GetComponent<Collider2D>());
+
+
     }
 }

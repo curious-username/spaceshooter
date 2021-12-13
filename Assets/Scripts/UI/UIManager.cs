@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class UIManager : MonoBehaviour
 {
-    
+
     [SerializeField]
     private Text _scoreText, _gameOverText, _gameRestartText, _ammoCount;
     [SerializeField]
@@ -15,23 +14,23 @@ public class UIManager : MonoBehaviour
     private Image _LivesImg, _thrusterPower;
     private GameManager _gameManager;
     private float _thrusterPowerValue;
-    
 
-    
-    
-    
 
-    
+
+
+
+
+
     void Start()
     {
-        
-        _gameManager = GameObject.Find("GameManager").GetComponent <GameManager> ();
+
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _scoreText.text = "Score: " + 0;
         _ammoCount.text = "Ammo: " + 15 + " / 15";
         _thrusterPower.fillAmount = 1;
         _gameOverText.gameObject.SetActive(false);
         _gameRestartText.gameObject.SetActive(false);
-        
+
 
 
     }
@@ -54,8 +53,8 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("No value available");
         }
-        
-        if(currentLives == 0)
+
+        if (currentLives == 0)
         {
             _gameOverText.gameObject.SetActive(true);
             _gameRestartText.gameObject.SetActive(true);
@@ -74,7 +73,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             _gameOverText.text = "";
             yield return new WaitForSeconds(0.5f);
-        
+
         }
     }
 
@@ -82,19 +81,19 @@ public class UIManager : MonoBehaviour
     public void ThrusterUpdate(float thrusterPower)
     {
 
-        _thrusterPowerValue =  thrusterPower * 0.05f;
-        
-        
+        _thrusterPowerValue = thrusterPower * 0.05f;
+
+
         if (_thrusterPower != null)
         {
             _thrusterPower.fillAmount = _thrusterPowerValue;
-            
+
 
             if (_thrusterPowerValue < 0.2f)
             {
                 _thrusterPower.color = Color.red;
             }
-            else if(_thrusterPowerValue < 0.5f)
+            else if (_thrusterPowerValue < 0.5f)
             {
                 _thrusterPower.color = Color.yellow;
             }
@@ -104,13 +103,13 @@ public class UIManager : MonoBehaviour
             }
 
         }
-        
-        
-        
+
+
+
 
     }
 
-    
+
 
 
 

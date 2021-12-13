@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MissleFireEnemy : MonoBehaviour
@@ -32,18 +30,18 @@ public class MissleFireEnemy : MonoBehaviour
         }
 
         _explosionSound = GetComponent<AudioSource>();
-        if(_explosionSound == null)
+        if (_explosionSound == null)
         {
             Debug.Log("Sound Not Found");
         }
 
         _explosion = GetComponent<Animator>();
-        if(_explosion == null)
+        if (_explosion == null)
         {
             Debug.Log("Explosion Animation Not Found");
         }
-        
-        
+
+
 
     }
 
@@ -52,8 +50,8 @@ public class MissleFireEnemy : MonoBehaviour
     {
         EnemyMovement();
 
-        
-        
+
+
     }
 
     void EnemyMovement()
@@ -70,13 +68,13 @@ public class MissleFireEnemy : MonoBehaviour
             _direction = Vector3.right;
         }
 
-        if(transform.position.y <= -6)
+        if (transform.position.y <= -6)
         {
             Destroy(gameObject);
-            
+
         }
 
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -92,7 +90,7 @@ public class MissleFireEnemy : MonoBehaviour
             }
 
             _speed = 0;
-            _explosion.SetTrigger("MissleEnemyDeath");
+            _explosion.SetTrigger("EnemyExplosion");
             Destroy(gameObject, 2f);
 
         }
@@ -103,7 +101,7 @@ public class MissleFireEnemy : MonoBehaviour
             _explosionSound.Play();
             _player.AddScore(15);
             _speed = 0;
-            _explosion.SetTrigger("MissleEnemyDeath");
+            _explosion.SetTrigger("EnemyExplosion");
             Destroy(gameObject, 2f);
             Destroy(collision.gameObject);
             Destroy(GetComponent<Collider2D>());
@@ -111,19 +109,19 @@ public class MissleFireEnemy : MonoBehaviour
         }
 
 
-        if(collision.tag == "Shield")
+        if (collision.tag == "Shield")
         {
             _explosionSound.Play();
             _speed = 0;
-            _explosion.SetTrigger("MissleEnemyDeath");
+            _explosion.SetTrigger("EnemyExplosion");
             Destroy(gameObject, 2f);
         }
 
-        if(collision.tag == "Big_Laser")
+        if (collision.tag == "Big_Laser")
         {
             _explosionSound.Play();
             _speed = 0;
-            _explosion.SetTrigger("MissleEnemyDeath");
+            _explosion.SetTrigger("EnemyExplosion");
             Destroy(gameObject, 2f);
         }
     }

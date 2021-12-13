@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour
@@ -7,14 +5,14 @@ public class PowerUp : MonoBehaviour
     private float _speed = 3.0f;
     [SerializeField]
     private int _powerupID;
-    
-    
+
+
     void Start()
     {
-        
+
     }
 
-    
+
     void Update()
     {
 
@@ -67,7 +65,7 @@ public class PowerUp : MonoBehaviour
                     case 6:
                         player.BigLaserActive();
                         break;
-                    
+
                     default:
                         Debug.Log("Default Value");
                         break;
