@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private int _shieldLife = 3;
     private bool _isShieldActive, _isTripleShotActive,
         _isSpeedUpActive, _isBigLaserActive, _isSlowDownActive,
-        _isBoostActive, _isEnemyFlareActive = false;
+        _isBoostActive, _isEnemyFlareActive, _isItemSpawned = false;
     private float _fireRate = 0.5f;
     private int _score;
     private int _ammoCount = 15;
@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private Sprite[] _playerLeft, _playerRight;
     private SpriteRenderer _spriteRenderer;
     private CameraShake _playerShake;
+    private GameObject _powerup;
     private WaitForSeconds _fiveSecondsYieldTime = new WaitForSeconds(5.0f);
     private WaitForSeconds _twoSecondsYieldTime = new WaitForSeconds(2.0f);
 
@@ -61,6 +62,11 @@ public class Player : MonoBehaviour
             Debug.LogError("Unable to find UI Manager");
         }
 
+        _powerup = GameObject.Find("PowerUp");
+        if (_powerup == null)
+        {
+            Debug.LogError("Unable to use powerup");
+        }
 
     }
 
@@ -72,12 +78,8 @@ public class Player : MonoBehaviour
         CalculateMovement();
         Thrusters();
         Warning();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            FireLaser();
-        }
-
-
+        FireLaser();
+        PowerupMagnet();
 
 
 
@@ -154,31 +156,33 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-
-
-        _canFire = Time.time + _fireRate;
-        Vector3 offset = new Vector3(0, 1.05f, 0);
-        if (_isBigLaserActive == false)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _ammoCount--;
-            if (_ammoCount < 0)
-            {
-                _ammoEmpty.Play();
-                _ammoCount = 0;
-            }
 
-            else if (_isTripleShotActive == true && _ammoCount > 0)
+            _canFire = Time.time + _fireRate;
+            Vector3 offset = new Vector3(0, 1.05f, 0);
+            if (_isBigLaserActive == false)
             {
-                Instantiate(_tripleShot, transform.position, Quaternion.identity);
-                _laserSound.Play();
-            }
-            else if (_ammoCount > 0)
-            {
-                Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
-                _laserSound.Play();
-            }
+                _ammoCount--;
+                if (_ammoCount < 0)
+                {
+                    _ammoEmpty.Play();
+                    _ammoCount = 0;
+                }
 
-            _uiManager.UpdateAmmoCount(_ammoCount);
+                else if (_isTripleShotActive == true && _ammoCount > 0)
+                {
+                    Instantiate(_tripleShot, transform.position, Quaternion.identity);
+                    _laserSound.Play();
+                }
+                else if (_ammoCount > 0)
+                {
+                    Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+                    _laserSound.Play();
+                }
+
+                _uiManager.UpdateAmmoCount(_ammoCount);
+            }
         }
     }
 
@@ -421,7 +425,32 @@ public class Player : MonoBehaviour
 
     }
 
+    public void ItemAvailable()
+    {
+        _isItemSpawned = true;
+    }
+
+    public void ItemUnavailable()
+    {
+        _isItemSpawned = false;
+    }
+
+    private void PowerupMagnet()
+    {
+        if(_isItemSpawned == true)
+        {
+            var powerup = GameObject.FindGameObjectWithTag("Powerup").GetComponent<PowerUp>();
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                //access powerup location based on tag
+                
+                powerup.PlayerLetterCPressed();
+            }
+
+        }
+    }
+
+
 
 
 }
-

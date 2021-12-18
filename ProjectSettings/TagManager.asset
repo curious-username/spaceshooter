@@ -16,6 +16,8 @@ TagManager:
   - MissleFireEnemy
   - Enemy_Shield
   - Smart_Enemy
+  - Enemy_Missle
+  - Powerup
   layers:
   - Default
   - TransparentFX

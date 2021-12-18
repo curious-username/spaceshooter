@@ -99,9 +99,9 @@ public class SmartEnemy : MonoBehaviour
 
             case "Laser":
                 _player.AddScore(15);
-                EnemyDestroyed();
                 Destroy(collision.gameObject);
                 Destroy(GetComponent<Collider2D>());
+                EnemyDestroyed();
                 break;
 
             case "Big_Laser":
