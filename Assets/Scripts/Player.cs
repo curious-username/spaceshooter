@@ -440,12 +440,15 @@ public class Player : MonoBehaviour
         if(_isItemSpawned == true)
         {
             var powerup = GameObject.FindGameObjectWithTag("Powerup").GetComponent<PowerUp>();
-            if (Input.GetKeyDown(KeyCode.C))
+            if(powerup != null)
             {
-                //access powerup location based on tag
-                
-                powerup.PlayerLetterCPressed();
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+
+                    powerup.PlayerLetterCPressed();
+                }
             }
+
 
         }
     }

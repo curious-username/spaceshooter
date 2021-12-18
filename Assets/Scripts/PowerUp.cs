@@ -39,17 +39,21 @@ public class PowerUp : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 direction = _player.transform.position - transform.position;
+        
         transform.Translate(Vector3.down * _speed * Time.deltaTime * _speedMultiplier);
         
-
-        if (_isPlayerCollectorPressed == true)
+        if(_player != null)
         {
-            _speedMultiplier = 1.5f;
-            transform.Translate(direction * _speed * Time.deltaTime * _speedMultiplier);
-            
+            if (_isPlayerCollectorPressed == true)
+            {
+                Vector3 direction = _player.transform.position - transform.position;
+                _speedMultiplier = 1.5f;
+                transform.Translate(direction * _speed * Time.deltaTime * _speedMultiplier);
+
+            }
+            _speedMultiplier = 1.0f;
         }
-        _speedMultiplier = 1.0f;
+
         
 
         
