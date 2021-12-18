@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyPrefab, _missleFireEnemyPrefab, _smartEnemy;
     [SerializeField]
     private GameObject _enemyContainer;
-    private bool _stopSpawning = false;
+    private bool _powerUpSpawned, _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
     [SerializeField]
@@ -119,7 +119,6 @@ public class SpawnManager : MonoBehaviour
                 _powerupTier1Count++;
             }
 
-
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
     }
@@ -128,5 +127,8 @@ public class SpawnManager : MonoBehaviour
     {
         _stopSpawning = true;
     }
+
+    
+
 
 }

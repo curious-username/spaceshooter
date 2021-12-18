@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -6,13 +7,15 @@ public class Enemy : MonoBehaviour
     private float _speed = 4.0f;
     private float _speedMultiplier = 1.0f;
     private Player _player;
-    private GameObject _playerObject;
+    private GameObject _playerObject, _newEnemyLaser;
     [SerializeField]
     private GameObject _EnemyLaserPrefab, _enemyShield;
     private Animator _enemyExplosion;
     private AudioSource _explosionSound;
-    private bool _isEnemyShieldActive;
+    private PowerUp _playerPowerup;
+    private bool _isEnemyShieldActive, _playerPowerupLocated;
     private float Ydistance, Xdistance;
+    
 
 
 
@@ -24,7 +27,6 @@ public class Enemy : MonoBehaviour
 
 
         EnemyLaserFire();
-
         _playerObject = GameObject.Find("Player");
         if (_playerObject != null)
         {
@@ -54,7 +56,7 @@ public class Enemy : MonoBehaviour
     {
 
         EnemyMovement();
-
+        
 
     }
 
@@ -165,9 +167,6 @@ public class Enemy : MonoBehaviour
                 _enemyExplosion.SetTrigger("OnEnemyDeath");
                 Destroy(gameObject, 2f);
             }
-
-
-
         }
 
         if (other.tag == "Big_Laser")
@@ -188,9 +187,6 @@ public class Enemy : MonoBehaviour
             _enemyExplosion.SetTrigger("OnEnemyDeath");
             Destroy(gameObject, 2f);
         }
-
-
-
     }
 
 
@@ -218,9 +214,24 @@ public class Enemy : MonoBehaviour
 
     }
 
+    public void PowerUpDetected()
+    {
+        _playerPowerupLocated = true;
+        DestroyPowerup();
+    }
+
+    private void DestroyPowerup()
+    {
+        if (_playerPowerupLocated == true)
+        {
+            Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
+            _playerPowerupLocated = false;
 
 
+        }
+    }
 
+    
 
 
 
