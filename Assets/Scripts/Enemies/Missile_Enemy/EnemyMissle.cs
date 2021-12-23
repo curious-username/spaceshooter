@@ -4,7 +4,8 @@ public class EnemyMissle : MonoBehaviour
 {
 
     private GameObject _playerLocation;
-    private Animator _explosion;
+    [SerializeField]
+    private GameObject _explosionObject;
     private AudioSource _explosionSound;
     private float _speed = 3.5f;
 
@@ -22,13 +23,6 @@ public class EnemyMissle : MonoBehaviour
         if (_explosionSound == null)
         {
             Debug.Log("AudioSource not found");
-        }
-
-
-        _explosion = GetComponent<Animator>();
-        if(_explosion == null)
-        {
-            Debug.Log("Animation not found");
         }
     }
 
@@ -91,12 +85,9 @@ public class EnemyMissle : MonoBehaviour
 
     void Explosion()
     {
-        _speed = 0;
+        Instantiate(_explosionObject, transform.position, Quaternion.identity);
         _explosionSound.Play();
-        _explosion.SetTrigger("EnemyExplosion");
-        Destroy(gameObject,2f);
-        Destroy(GetComponent<Collider2D>());
-
+        Destroy(gameObject);
 
     }
 }

@@ -18,6 +18,7 @@ TagManager:
   - Smart_Enemy
   - Enemy_Missle
   - Powerup
+  - Dodge_Enemy
   layers:
   - Default
   - TransparentFX
