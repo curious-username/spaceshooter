@@ -82,8 +82,6 @@ public class MissleFireEnemy : MonoBehaviour
         if (collision.tag == "Player")
         {
 
-            Player _player = collision.transform.GetComponent<Player>();
-
             if (_player != null)
             {
                 _player.Damage();

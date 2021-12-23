@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
+            
             _canFire = Time.time + _fireRate;
             Vector3 offset = new Vector3(0, 1.05f, 0);
             if (_isBigLaserActive == false)
@@ -437,20 +437,27 @@ public class Player : MonoBehaviour
 
     private void PowerupMagnet()
     {
-        if(_isItemSpawned == true)
+        if(gameObject != null)
         {
-            var powerup = GameObject.FindGameObjectWithTag("Powerup").GetComponent<PowerUp>();
-            if(powerup != null)
+
+        
+        
+            if(_isItemSpawned == true)
             {
-                if (Input.GetKeyDown(KeyCode.C))
+                var powerup = GameObject.FindGameObjectWithTag("Powerup").GetComponent<PowerUp>();
+                if(powerup != null)
                 {
+                    if (Input.GetKeyDown(KeyCode.C))
+                    {
 
-                    powerup.PlayerLetterCPressed();
+                        powerup.PlayerLetterCPressed();
+                    }
                 }
+
+
             }
-
-
         }
+
     }
 
 

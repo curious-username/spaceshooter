@@ -7,12 +7,11 @@ public class Enemy : MonoBehaviour
     private float _speed = 4.0f;
     private float _speedMultiplier = 1.0f;
     private Player _player;
-    private GameObject _playerObject, _newEnemyLaser;
+    private GameObject _playerObject; 
     [SerializeField]
     private GameObject _EnemyLaserPrefab, _enemyShield;
     private Animator _enemyExplosion;
     private AudioSource _explosionSound;
-    private PowerUp _playerPowerup;
     private bool _isEnemyShieldActive, _playerPowerupLocated;
     private float Ydistance, Xdistance;
     
@@ -171,11 +170,23 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Big_Laser")
         {
-            _explosionSound.Play();
-            _player.AddScore(10);
-            _speed = 0;
-            _enemyExplosion.SetTrigger("OnEnemyDeath");
-            Destroy(gameObject, 2f);
+            if (_isEnemyShieldActive == true)
+            {
+                Destroy(gameObject, 2f);
+                _enemyShield.SetActive(false);
+                _isEnemyShieldActive = false;
+            }
+
+            else
+            {
+                Destroy(gameObject, 2f);
+                _explosionSound.Play();
+                _player.AddScore(10);
+                _speed = 0;
+                _enemyExplosion.SetTrigger("OnEnemyDeath");
+                Destroy(gameObject, 2f);
+            }
+
         }
 
         if (other.tag == "Enemy_Missle")

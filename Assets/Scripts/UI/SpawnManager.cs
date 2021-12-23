@@ -4,15 +4,16 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab, _missleFireEnemyPrefab, _smartEnemy;
+    private GameObject _enemyPrefab, _missleFireEnemyPrefab, _smartEnemy, 
+        _dodgeEnemy;
     [SerializeField]
     private GameObject _enemyContainer;
-    private bool _powerUpSpawned, _stopSpawning = false;
+    private bool _stopSpawning = false;
     [SerializeField]
     private GameObject[] _powerups;
-    [SerializeField]
     private int _enemyWave, _randomPowerup, _powerupTier1Count,
-        _powerupTier2Count, _missleEnemyCounter, _smartEnemyCounter;
+        _powerupTier2Count, _missleEnemyCounter, _smartEnemyCounter,
+        _dodgeEnemyCounter;
     private GameObject newEnemy;
     private float _enemyXPosition = -9;
     private Vector3 _spawn;
@@ -30,7 +31,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnRoutine()
     {
-        //yield return new WaitForSeconds(3.0f);
+        
 
         while (_stopSpawning == false)
         {
@@ -41,7 +42,7 @@ public class SpawnManager : MonoBehaviour
 
            if (_missleEnemyCounter == 4)
             {
-                //_enemyXPosition = Random.Range(-7, 8);
+                
                 _spawn = new Vector3(_enemyXPosition, 8, 0);
                 newEnemy = Instantiate(_missleFireEnemyPrefab, _spawn, Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
@@ -52,13 +53,24 @@ public class SpawnManager : MonoBehaviour
             
             else if (_smartEnemyCounter == 3)
             {
-                //_enemyXPosition = Random.Range(-7, 8);
+                
                 _spawn = new Vector3(_enemyXPosition, 8, 0);
                 newEnemy = Instantiate(_smartEnemy, _spawn, Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
                 _enemyWave = 0;
                 _smartEnemyCounter = 0;
+                _dodgeEnemyCounter++;
             }
+            else if (_dodgeEnemyCounter == 2)
+            {
+                _spawn = new Vector3(_enemyXPosition, 8, 0);
+                newEnemy = Instantiate(_dodgeEnemy, _spawn, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+                _enemyWave = 0;
+                _dodgeEnemyCounter = 0;
+            }
+
+
 
             else if (_enemyWave < 5)
             {

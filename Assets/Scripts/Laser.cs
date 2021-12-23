@@ -3,10 +3,18 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     private int speed = 8;
+    private GameObject _dodgeEnemy;
 
+    private void Start()
+    {
+        
+
+    }
     void Update()
     {
         CalculateMovement();
+        DodgeEnemy();
+
     }
 
     void CalculateMovement()
@@ -22,10 +30,16 @@ public class Laser : MonoBehaviour
                 Destroy(transform.parent.gameObject);
             }
             Destroy(this.gameObject);
-
-
         }
+    }
 
+    private void DodgeEnemy()
+    {
+            _dodgeEnemy = GameObject.Find("Dodge_Enemy");
+            if (_dodgeEnemy != null)
+            {
+                _dodgeEnemy.GetComponent<DodgeEnemy>().PlayerLaserSpawned();
+            }
     }
 
 }
