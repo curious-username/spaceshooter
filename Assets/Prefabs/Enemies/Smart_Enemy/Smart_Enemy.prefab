@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyFlare: {fileID: 8611984925077494285, guid: 38eff888cc50d944fa290479753b017b, type: 3}
+  _explosionObject: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}
 --- !u!61 &3244704238083510037
 BoxCollider2D:
   m_ObjectHideFlags: 0
