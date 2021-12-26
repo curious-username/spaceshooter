@@ -3,11 +3,11 @@ using UnityEngine;
 public class MissleFireEnemy : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _missile;
+    private GameObject _missile, _explosionPrefab;
     private Player _player;
-    private GameObject _playerObject;
+    private GameObject _playerObject, _ExplosionAudioObject;
     private AudioSource _explosionSound;
-    private Animator _explosion;
+    //private Animator _explosion;
     private float _speed = 3.5f;
     private Vector3 _direction = Vector3.right;
 
@@ -29,18 +29,11 @@ public class MissleFireEnemy : MonoBehaviour
             }
         }
 
-        _explosionSound = GetComponent<AudioSource>();
-        if (_explosionSound == null)
+        _ExplosionAudioObject = GameObject.Find("Explosion");
+        if(_ExplosionAudioObject != null)
         {
-            Debug.Log("Sound Not Found");
+            _explosionSound = _ExplosionAudioObject.GetComponent<AudioSource>();
         }
-
-        _explosion = GetComponent<Animator>();
-        if (_explosion == null)
-        {
-            Debug.Log("Explosion Animation Not Found");
-        }
-
 
 
     }
@@ -87,20 +80,14 @@ public class MissleFireEnemy : MonoBehaviour
                 _player.Damage();
             }
 
-            _speed = 0;
-            _explosion.SetTrigger("EnemyExplosion");
-            Destroy(gameObject, 2f);
+            Explosion();
 
         }
 
         if (collision.tag == "Laser")
         {
 
-            _explosionSound.Play();
-            _player.AddScore(15);
-            _speed = 0;
-            _explosion.SetTrigger("EnemyExplosion");
-            Destroy(gameObject, 2f);
+            Explosion();
             Destroy(collision.gameObject);
             Destroy(GetComponent<Collider2D>());
 
@@ -109,22 +96,21 @@ public class MissleFireEnemy : MonoBehaviour
 
         if (collision.tag == "Shield")
         {
-            _explosionSound.Play();
-            _speed = 0;
-            _explosion.SetTrigger("EnemyExplosion");
-            Destroy(gameObject, 2f);
+            Explosion();
         }
 
         if (collision.tag == "Big_Laser")
         {
-            _explosionSound.Play();
-            _speed = 0;
-            _explosion.SetTrigger("EnemyExplosion");
-            Destroy(gameObject, 2f);
+            Explosion();
         }
     }
 
-
+    private void Explosion()
+    {
+        _explosionSound.Play();
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
 
 
 

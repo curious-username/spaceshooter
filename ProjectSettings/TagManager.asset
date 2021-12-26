@@ -19,6 +19,8 @@ TagManager:
   - Enemy_Missle
   - Powerup
   - Dodge_Enemy
+  - Player_Missile
+  - Audio_Manager
   layers:
   - Default
   - TransparentFX

@@ -6,25 +6,31 @@ public class DodgeEnemy : MonoBehaviour
 {
 
     private float _speed = 4.0f;
-    private bool _isPlayerLaserSpawned, _fireLaser = false;
+    private bool _isPlayerLaserSpawned = false;
+    private bool _fireLaser = true;
     private Laser _playerLaser;
     [SerializeField]
     private GameObject _enemyLaser, _explosionObject;
     private float _speedMultiplyer = 1.0f;
     private Vector3 _direction = Vector3.down;
     private Player _player;
+
+    private GameObject _explosionAudioObject;
     private AudioSource _explosionSound;
+    
 
 
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
-        _fireLaser = true;
-        _explosionSound = GetComponent<AudioSource>();
-        if(_explosionSound == null)
+
+        _explosionAudioObject = GameObject.Find("Explosion");
+        if(_explosionAudioObject != null)
         {
-            Debug.Log("Unable to find Audio");
+            _explosionSound = _explosionAudioObject.GetComponent<AudioSource>();
         }
+        
+
 
     }
 
@@ -85,24 +91,34 @@ public class DodgeEnemy : MonoBehaviour
             {
                 _player.Damage();
             }
-            _explosionSound.Play();
-            Instantiate(_explosionObject, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Explosion();
         }
 
         if(collision.tag == "Laser")
         {
-            _explosionSound.Play();
-            Instantiate(_explosionObject, transform.position, Quaternion.identity);
+            _player.AddScore(15);
+            Explosion();
             Destroy(collision);
-            Destroy(gameObject);
         }
         if(collision.tag == "Big_Laser")
-        {   
-            _explosionSound.Play();
-            Instantiate(_explosionObject, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+        {
+
+            _player.AddScore(15);
+            Explosion();
+
         }
+        if(collision.tag == "Shield")
+        {
+            Explosion();
+        }
+
+    }
+
+    private void Explosion()
+    {
+        _explosionSound.Play();
+        Instantiate(_explosionObject, transform.position, Quaternion.identity);
+        Destroy(gameObject);
 
     }
 
