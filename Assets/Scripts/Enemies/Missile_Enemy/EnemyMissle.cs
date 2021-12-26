@@ -3,11 +3,15 @@ using UnityEngine;
 public class EnemyMissle : MonoBehaviour
 {
 
-    private GameObject _playerLocation;
+    private float _speed = 3.5f;
+    private GameObject _playerLocation, _explosionAudioObject;
+    private AudioSource _explosionSound;
+
     [SerializeField]
     private GameObject _explosionObject;
-    private AudioSource _explosionSound;
-    private float _speed = 3.5f;
+
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +23,10 @@ public class EnemyMissle : MonoBehaviour
             Debug.Log("Player not found");
         }
 
-        _explosionSound = GetComponent<AudioSource>();
-        if (_explosionSound == null)
+        _explosionAudioObject = GameObject.Find("Explosion");
+        if(_explosionAudioObject != null)
         {
-            Debug.Log("AudioSource not found");
+                _explosionSound = _explosionAudioObject.GetComponent<AudioSource>();
         }
     }
 
@@ -85,9 +89,10 @@ public class EnemyMissle : MonoBehaviour
 
     void Explosion()
     {
-        Instantiate(_explosionObject, transform.position, Quaternion.identity);
         _explosionSound.Play();
+        Instantiate(_explosionObject, transform.position, Quaternion.identity);
         Destroy(gameObject);
+        
 
     }
 }

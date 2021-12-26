@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab, _tripleShot, _shield,
         _bigLaser, _laserCharge, _rightEngine,
-        _leftEngine, _thruster, _slowDown;
+        _leftEngine, _thruster, _slowDown, _missilePrefab;
     private float _canFire = -1f;
     private int _lives = 3;
     [SerializeField]
@@ -464,3 +464,12 @@ public class Player : MonoBehaviour
 
 
 }
+
+// FOR PLAYER MISSILE
+/*
+ - need place in fireweapon to control when the powerup is received
+- need to treat the rarity of the missile like the big laser
+- need to go into each enemy and update their stuff. Noticed code reusing, can I other.tag through every enemy in one class?
+ 
+ 
+ */
