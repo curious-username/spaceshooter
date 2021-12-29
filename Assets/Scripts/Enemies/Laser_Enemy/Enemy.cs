@@ -9,12 +9,15 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private GameObject _playerObject; 
     [SerializeField]
-    private GameObject _EnemyLaserPrefab, _enemyShield;
-    private Animator _enemyExplosion;
-    private AudioSource _explosionSound;
+    private GameObject _EnemyLaserPrefab, _enemyShield, _explosionPrefab;
+    //private Animator _enemyExplosion;
+    //private AudioSource _explosionSound;
     private bool _isEnemyShieldActive, _playerPowerupLocated;
     private float Ydistance, Xdistance;
-    
+
+    private GameObject _explosionAudioObject;
+    private AudioSource _explosionSound;
+
 
 
 
@@ -36,18 +39,11 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        _enemyExplosion = GetComponent<Animator>();
-        if (_enemyExplosion == null)
+        _explosionAudioObject = GameObject.Find("Explosion");
+        if (_explosionAudioObject != null)
         {
-            Debug.Log("Explosion Animation null");
+            _explosionSound = _explosionAudioObject.GetComponent<AudioSource>();
         }
-
-        _explosionSound = GetComponent<AudioSource>();
-        if (_explosionSound == null)
-        {
-            Debug.Log("Explosion Sound null");
-        }
-
     }
 
 
@@ -85,7 +81,7 @@ public class Enemy : MonoBehaviour
 
 
 
-        if (transform.position.y <= -5)
+        if (transform.position.y <= -5.5f)
         {
 
             Destroy(gameObject);
@@ -124,8 +120,9 @@ public class Enemy : MonoBehaviour
                     _player.Damage();
                     _explosionSound.Play();
                     _speed = 0;
-                    _enemyExplosion.SetTrigger("OnEnemyDeath");
-                    Destroy(gameObject, 2f);
+                    //_enemyExplosion.SetTrigger("OnEnemyDeath");
+                    Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+                    Destroy(gameObject);
 
                 }
             }
@@ -135,7 +132,6 @@ public class Enemy : MonoBehaviour
         {
             if (_isEnemyShieldActive == true)
             {
-                Destroy(gameObject, 2f);
                 Destroy(other.gameObject);
                 _enemyShield.SetActive(false);
                 _isEnemyShieldActive = false;
@@ -146,8 +142,9 @@ public class Enemy : MonoBehaviour
                 _explosionSound.Play();
                 _player.AddScore(10);
                 _speed = 0;
-                _enemyExplosion.SetTrigger("OnEnemyDeath");
-                Destroy(gameObject, 2f);
+                //_enemyExplosion.SetTrigger("OnEnemyDeath");
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+                Destroy(gameObject);
                 Destroy(other.gameObject);
                 Destroy(GetComponent<Collider2D>());
             }
@@ -163,8 +160,9 @@ public class Enemy : MonoBehaviour
             {
                 _explosionSound.Play();
                 _speed = 0;
-                _enemyExplosion.SetTrigger("OnEnemyDeath");
-                Destroy(gameObject, 2f);
+                //_enemyExplosion.SetTrigger("OnEnemyDeath");
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+                Destroy(gameObject);
             }
         }
 
@@ -172,31 +170,45 @@ public class Enemy : MonoBehaviour
         {
             if (_isEnemyShieldActive == true)
             {
-                Destroy(gameObject, 2f);
+                Destroy(gameObject);
                 _enemyShield.SetActive(false);
                 _isEnemyShieldActive = false;
             }
 
             else
             {
-                Destroy(gameObject, 2f);
+                Destroy(gameObject);
                 _explosionSound.Play();
                 _player.AddScore(10);
                 _speed = 0;
-                _enemyExplosion.SetTrigger("OnEnemyDeath");
+                //_enemyExplosion.SetTrigger("OnEnemyDeath");
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                 Destroy(gameObject, 2f);
             }
 
         }
 
-        if (other.tag == "Enemy_Missle")
+        if (other.tag == "Player_Missile")
         {
 
-            _explosionSound.Play();
-            _player.AddScore(20);
-            _speed = 0;
-            _enemyExplosion.SetTrigger("OnEnemyDeath");
-            Destroy(gameObject, 2f);
+            if (_isEnemyShieldActive == true)
+            {
+                Destroy(other.gameObject);
+                _enemyShield.SetActive(false);
+                _isEnemyShieldActive = false;
+            }
+
+            else
+            {
+                _explosionSound.Play();
+                _player.AddScore(10);
+                _speed = 0;
+                //_enemyExplosion.SetTrigger("OnEnemyDeath");
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+                Destroy(other.gameObject);
+                Destroy(GetComponent<Collider2D>());
+            }
         }
     }
 
@@ -243,7 +255,15 @@ public class Enemy : MonoBehaviour
     }
 
     
+    private void EnemyShieldOff()
+    {
 
+    }
+
+    private void EnemyShieldOn()
+    {
+
+    }
 
 
 

@@ -6,22 +6,18 @@ public class PowerUp : MonoBehaviour
     [SerializeField]
     private int _powerupID;
     private Enemy _laserEnemy;
-    private bool _isPlayerCollectorPressed = false;
     private float _speedMultiplier = 1.0f;
     private Player _player;
+    private Vector3 _direction = Vector3.down;
 
 
     void Start()
     {
-        //_laserEnemy = GameObject.Find("Enemy").GetComponent<Enemy>();
-        //if (_laserEnemy == null)
-        //{
-        //    Debug.Log("Unable to find Enemy!");
-        //}
+
         _player = GameObject.Find("Player").GetComponent<Player>();
-        if(_player != null)
+        if(_player == null)
         {
-            _player.ItemAvailable();
+            Debug.Log("Player Not Found");
         }
     }
 
@@ -36,32 +32,27 @@ public class PowerUp : MonoBehaviour
 
     }
 
-
+    
     private void Movement()
     {
         
-        transform.Translate(Vector3.down * _speed * Time.deltaTime * _speedMultiplier);
+        transform.Translate(_direction * _speed * Time.deltaTime * _speedMultiplier);
         
         if(_player != null)
         {
-            if (_isPlayerCollectorPressed == true)
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                Vector3 direction = _player.transform.position - transform.position;
+                _direction = _player.transform.position - transform.position;
                 _speedMultiplier = 1.5f;
-                transform.Translate(direction * _speed * Time.deltaTime * _speedMultiplier);
+                
 
             }
             _speedMultiplier = 1.0f;
         }
 
-        
-
-        
-        
         if (transform.position.y < -3.8f)
         {
             Destroy(this.gameObject);
-            _player.ItemUnavailable();
         }
     }
 
@@ -100,13 +91,15 @@ public class PowerUp : MonoBehaviour
                     case 6:
                         _player.BigLaserActive();
                         break;
+                    case 7:
+                        _player.MissilesActive();
+                        break;
 
                     default:
                         Debug.Log("Default Value");
                         break;
                 }
                 Destroy(this.gameObject);
-                _player.ItemUnavailable();
             }
         }
 
@@ -131,16 +124,5 @@ public class PowerUp : MonoBehaviour
             }
         }
     }
-
-    public void PlayerLetterCPressed()
-    {
-        _isPlayerCollectorPressed = true;
-        
-    }
-
-
-
-
-
 
 }

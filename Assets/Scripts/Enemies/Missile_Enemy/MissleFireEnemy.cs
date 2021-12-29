@@ -72,37 +72,38 @@ public class MissleFireEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        switch (collision.tag)
         {
 
-            if (_player != null)
-            {
-                _player.Damage();
-            }
+            case "Player":
+                Player _player = collision.transform.GetComponent<Player>();
+                if (_player != null)
+                {
+                    _player.Damage();
+                }
+                Explosion();
+                break;
 
-            Explosion();
+            case "Shield":
+                Explosion();
+                break;
+
+            case "Big_Laser":
+                Explosion();
+                break;
+
+            case "Laser":
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
+
+            case "Player_Missile":
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
 
         }
 
-        if (collision.tag == "Laser")
-        {
-
-            Explosion();
-            Destroy(collision.gameObject);
-            Destroy(GetComponent<Collider2D>());
-
-        }
-
-
-        if (collision.tag == "Shield")
-        {
-            Explosion();
-        }
-
-        if (collision.tag == "Big_Laser")
-        {
-            Explosion();
-        }
     }
 
     private void Explosion()

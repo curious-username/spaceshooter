@@ -7,10 +7,11 @@ public class SmartEnemy : MonoBehaviour
     private Player _player;
     [SerializeField]
     private GameObject _enemyFlare, _explosionObject;
-    private GameObject _explosionAudioObject;
+    
     private Vector3 _direction = Vector3.right;
     private bool _fireFlare = true;
     private float ylocation, xlocation;
+    private GameObject _explosionAudioObject;
     private AudioSource _explosionSound;
 
 
@@ -81,7 +82,9 @@ public class SmartEnemy : MonoBehaviour
 
         switch (collision.tag)
         {
+
             case "Player":
+                Player _player = collision.transform.GetComponent<Player>();
                 if (_player != null)
                 {
                     _player.Damage();
@@ -93,16 +96,19 @@ public class SmartEnemy : MonoBehaviour
                 Explosion();
                 break;
 
+            case "Big_Laser":
+                Explosion();
+                break;
+
             case "Laser":
-                _player.AddScore(15);
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
+
+            case "Player_Missile":
                 Explosion();
                 Destroy(collision.gameObject);
                 Destroy(GetComponent<Collider2D>());
-                break;
-
-            case "Big_Laser":
-                _player.AddScore(10);
-                Explosion();
                 break;
 
         }

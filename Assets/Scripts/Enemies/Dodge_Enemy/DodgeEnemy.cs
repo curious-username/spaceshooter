@@ -23,6 +23,10 @@ public class DodgeEnemy : MonoBehaviour
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        if(_player == null)
+        {
+            Debug.Log("Player not found");
+        }
 
         _explosionAudioObject = GameObject.Find("Explosion");
         if(_explosionAudioObject != null)
@@ -85,31 +89,36 @@ public class DodgeEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
-        {
-            if (_player != null)
-            {
-                _player.Damage();
-            }
-            Explosion();
-        }
-
-        if(collision.tag == "Laser")
-        {
-            _player.AddScore(15);
-            Explosion();
-            Destroy(collision);
-        }
-        if(collision.tag == "Big_Laser")
+        switch (collision.tag)
         {
 
-            _player.AddScore(15);
-            Explosion();
+            case "Player":
+                //Player _player = collision.transform.GetComponent<Player>();
+                if (_player != null)
+                {
+                    _player.Damage();
+                }
+                Explosion();
+                break;
 
-        }
-        if(collision.tag == "Shield")
-        {
-            Explosion();
+            case "Shield":
+                Explosion();
+                break;
+
+            case "Big_Laser":
+                Explosion();
+                break;
+
+            case "Laser":
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
+
+            case "Player_Missile":
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
+
         }
 
     }

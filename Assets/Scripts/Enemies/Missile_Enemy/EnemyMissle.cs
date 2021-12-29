@@ -82,6 +82,11 @@ public class EnemyMissle : MonoBehaviour
                 Destroy(collision.gameObject);
                 break;
 
+            case "Player_Missile":
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
+
         }
 
 
