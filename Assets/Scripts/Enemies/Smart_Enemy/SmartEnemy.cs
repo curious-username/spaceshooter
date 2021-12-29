@@ -6,12 +6,13 @@ public class SmartEnemy : MonoBehaviour
     private float _speed = 4.5f;
     private Player _player;
     [SerializeField]
-    private GameObject _enemyFlare;
+    private GameObject _enemyFlare, _explosionObject;
+    
     private Vector3 _direction = Vector3.right;
     private bool _fireFlare = true;
     private float ylocation, xlocation;
+    private GameObject _explosionAudioObject;
     private AudioSource _explosionSound;
-    private Animator _explosion;
 
 
     void Start()
@@ -21,17 +22,13 @@ public class SmartEnemy : MonoBehaviour
         {
             Debug.Log("Unable to find player!");
         }
-        _explosionSound = GetComponent<AudioSource>();
-        if (_explosionSound == null)
+
+        _explosionAudioObject = GameObject.Find("Explosion");
+        if(_explosionAudioObject != null)
         {
-            Debug.Log("Sound Not Found");
+            _explosionSound = _explosionAudioObject.GetComponent<AudioSource>();
         }
 
-        _explosion = GetComponent<Animator>();
-        if (_explosion == null)
-        {
-            Debug.Log("Explosion Animation Not Found");
-        }
 
     }
 
@@ -85,39 +82,44 @@ public class SmartEnemy : MonoBehaviour
 
         switch (collision.tag)
         {
+
             case "Player":
+                Player _player = collision.transform.GetComponent<Player>();
                 if (_player != null)
                 {
                     _player.Damage();
                 }
-                EnemyDestroyed();
+                Explosion();
                 break;
 
             case "Shield":
-                EnemyDestroyed();
-                break;
-
-            case "Laser":
-                _player.AddScore(15);
-                Destroy(collision.gameObject);
-                Destroy(GetComponent<Collider2D>());
-                EnemyDestroyed();
+                Explosion();
                 break;
 
             case "Big_Laser":
-                _player.AddScore(10);
-                EnemyDestroyed();
+                Explosion();
+                break;
+
+            case "Laser":
+                Explosion();
+                Destroy(collision.gameObject);
+                break;
+
+            case "Player_Missile":
+                Explosion();
+                Destroy(collision.gameObject);
+                Destroy(GetComponent<Collider2D>());
                 break;
 
         }
     }
-
-    void EnemyDestroyed()
+    void Explosion()
     {
-        _speed = 0;
         _explosionSound.Play();
-        _explosion.SetTrigger("EnemyExplosion");
-        Destroy(gameObject, 2f);
+        Instantiate(_explosionObject, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+
+
     }
 
 }

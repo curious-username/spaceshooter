@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _EnemyLaserPrefab: {fileID: 7481551949085775878, guid: 06f95f82f69456e44b16918e950664a4, type: 3}
   _enemyShield: {fileID: 5397498563824027766}
-  _isEnemyShieldActive: 0
+  _explosionPrefab: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}
 --- !u!82 &4363659821179207337
 AudioSource:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2557722128622327011}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
@@ -254,7 +254,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2557722128622327011}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 2e849117768ff984dba7fa85ba82dd4f, type: 2}
   m_CullingMode: 0

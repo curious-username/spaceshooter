@@ -12,15 +12,11 @@ TagManager:
   - Enemy_Laser
   - Ammo
   - Big_Laser
-  - MissileFireEnemy
-  - MissleFireEnemy
   - Enemy_Shield
-  - Smart_Enemy
-  - Enemy_Missle
   - Powerup
-  - Dodge_Enemy
-  - Player_Missile
   - Audio_Manager
+  - Undefined
+  - Player_Missile
   layers:
   - Default
   - TransparentFX

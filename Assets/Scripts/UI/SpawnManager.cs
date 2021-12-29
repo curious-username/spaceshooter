@@ -122,7 +122,7 @@ public class SpawnManager : MonoBehaviour
             }
             else if (_powerupTier2Count > 3)
             {
-                Instantiate(_powerups[6], spawn, Quaternion.identity);
+                Instantiate(_powerups[Random.Range(6, 7)], spawn, Quaternion.identity);
                 _powerupTier2Count = 0;
             }
             else

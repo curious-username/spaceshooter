@@ -20,7 +20,8 @@ public class Player : MonoBehaviour
     private int _shieldLife = 3;
     private bool _isShieldActive, _isTripleShotActive,
         _isSpeedUpActive, _isBigLaserActive, _isSlowDownActive,
-        _isBoostActive, _isEnemyFlareActive, _isItemSpawned = false;
+        _isBoostActive, _isEnemyFlareActive,
+        _isMissileActive = false;
     private float _fireRate = 0.5f;
     private int _score;
     private int _ammoCount = 15;
@@ -32,9 +33,10 @@ public class Player : MonoBehaviour
     private Sprite[] _playerLeft, _playerRight;
     private SpriteRenderer _spriteRenderer;
     private CameraShake _playerShake;
-    private GameObject _powerup;
+    //private GameObject _powerup;
     private WaitForSeconds _fiveSecondsYieldTime = new WaitForSeconds(5.0f);
     private WaitForSeconds _twoSecondsYieldTime = new WaitForSeconds(2.0f);
+    
 
 
 
@@ -61,26 +63,18 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Unable to find UI Manager");
         }
-
-        _powerup = GameObject.Find("PowerUp");
-        if (_powerup == null)
-        {
-            Debug.LogError("Unable to use powerup");
-        }
+     
+        
 
     }
 
 
     void Update()
     {
-
-
         CalculateMovement();
         Thrusters();
         Warning();
         FireLaser();
-        PowerupMagnet();
-
 
 
     }
@@ -161,10 +155,21 @@ public class Player : MonoBehaviour
             
             _canFire = Time.time + _fireRate;
             Vector3 offset = new Vector3(0, 1.05f, 0);
-            if (_isBigLaserActive == false)
+            if (_isMissileActive)
+            {
+                Instantiate(_missilePrefab, transform.position + offset, Quaternion.identity);
+                _ammoCount--;
+                if (_ammoCount <= 0)
+                {
+                    _isMissileActive = false;
+                    _ammoCount = 15;
+                }
+                _uiManager.UpdateAmmoCount(_ammoCount);
+            }
+            else if(_isBigLaserActive == false)
             {
                 _ammoCount--;
-                if (_ammoCount < 0)
+                if (_ammoCount <= 0)
                 {
                     _ammoEmpty.Play();
                     _ammoCount = 0;
@@ -180,9 +185,9 @@ public class Player : MonoBehaviour
                     Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
                     _laserSound.Play();
                 }
-
                 _uiManager.UpdateAmmoCount(_ammoCount);
-            }
+            }   
+
         }
     }
 
@@ -387,7 +392,6 @@ public class Player : MonoBehaviour
         _bigLaser.SetActive(false);
         _isBigLaserActive = false;
 
-
     }
 
 
@@ -405,8 +409,6 @@ public class Player : MonoBehaviour
         yield return _fiveSecondsYieldTime;
         _isSlowDownActive = false;
         _slowDown.SetActive(false);
-
-
     }
 
 
@@ -425,51 +427,13 @@ public class Player : MonoBehaviour
 
     }
 
-    public void ItemAvailable()
+    public void MissilesActive()
     {
-        _isItemSpawned = true;
+        _powerupSound.Play();
+        _isMissileActive = true;
+        _ammoCount = 15;
     }
-
-    public void ItemUnavailable()
-    {
-        _isItemSpawned = false;
-    }
-
-    private void PowerupMagnet()
-    {
-        if(gameObject != null)
-        {
-
-        
-        
-            if(_isItemSpawned == true)
-            {
-                var powerup = GameObject.FindGameObjectWithTag("Powerup").GetComponent<PowerUp>();
-                if(powerup != null)
-                {
-                    if (Input.GetKeyDown(KeyCode.C))
-                    {
-
-                        powerup.PlayerLetterCPressed();
-                    }
-                }
-
-
-            }
-        }
-
-    }
-
-
 
 
 }
 
-// FOR PLAYER MISSILE
-/*
- - need place in fireweapon to control when the powerup is received
-- need to treat the rarity of the missile like the big laser
-- need to go into each enemy and update their stuff. Noticed code reusing, can I other.tag through every enemy in one class?
- 
- 
- */
