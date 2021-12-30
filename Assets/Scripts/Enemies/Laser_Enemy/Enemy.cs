@@ -10,11 +10,8 @@ public class Enemy : MonoBehaviour
     private GameObject _playerObject; 
     [SerializeField]
     private GameObject _EnemyLaserPrefab, _enemyShield, _explosionPrefab;
-    //private Animator _enemyExplosion;
-    //private AudioSource _explosionSound;
-    private bool _isEnemyShieldActive, _playerPowerupLocated;
+    private bool _isEnemyShieldActive, _fireLaser;
     private float Ydistance, Xdistance;
-
     private GameObject _explosionAudioObject;
     private AudioSource _explosionSound;
 
@@ -44,6 +41,7 @@ public class Enemy : MonoBehaviour
         {
             _explosionSound = _explosionAudioObject.GetComponent<AudioSource>();
         }
+        _fireLaser = true;
     }
 
 
@@ -51,7 +49,7 @@ public class Enemy : MonoBehaviour
     {
 
         EnemyMovement();
-        
+        DestroyPowerup();
 
     }
 
@@ -98,7 +96,7 @@ public class Enemy : MonoBehaviour
         {
 
             transform.position = new Vector3(Random.Range(-9f, 9f), 15, 0);
-
+            
         }
 
 
@@ -118,11 +116,7 @@ public class Enemy : MonoBehaviour
                 if (_isEnemyShieldActive == false)
                 {
                     _player.Damage();
-                    _explosionSound.Play();
-                    _speed = 0;
-                    //_enemyExplosion.SetTrigger("OnEnemyDeath");
-                    Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-                    Destroy(gameObject);
+                    Explosion();
 
                 }
             }
@@ -139,12 +133,9 @@ public class Enemy : MonoBehaviour
 
             else
             {
-                _explosionSound.Play();
+                
                 _player.AddScore(10);
-                _speed = 0;
-                //_enemyExplosion.SetTrigger("OnEnemyDeath");
-                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Explosion();
                 Destroy(other.gameObject);
                 Destroy(GetComponent<Collider2D>());
             }
@@ -158,33 +149,17 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                _explosionSound.Play();
-                _speed = 0;
-                //_enemyExplosion.SetTrigger("OnEnemyDeath");
-                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Explosion();
             }
         }
 
         if (other.tag == "Big_Laser")
         {
-            if (_isEnemyShieldActive == true)
-            {
-                Destroy(gameObject);
-                _enemyShield.SetActive(false);
-                _isEnemyShieldActive = false;
-            }
 
-            else
-            {
-                Destroy(gameObject);
-                _explosionSound.Play();
-                _player.AddScore(10);
-                _speed = 0;
-                //_enemyExplosion.SetTrigger("OnEnemyDeath");
-                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-                Destroy(gameObject, 2f);
-            }
+            Explosion();
+            _player.AddScore(10);
+            _enemyShield.SetActive(false);
+            _isEnemyShieldActive = false;
 
         }
 
@@ -200,18 +175,21 @@ public class Enemy : MonoBehaviour
 
             else
             {
-                _explosionSound.Play();
                 _player.AddScore(10);
-                _speed = 0;
-                //_enemyExplosion.SetTrigger("OnEnemyDeath");
-                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Explosion();
                 Destroy(other.gameObject);
                 Destroy(GetComponent<Collider2D>());
             }
         }
     }
 
+
+    private void Explosion()
+    {
+        _explosionSound.Play();
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
 
     void EnemyLaserFire()
     {
@@ -237,33 +215,30 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void PowerUpDetected()
-    {
-        _playerPowerupLocated = true;
-        DestroyPowerup();
-    }
-
     private void DestroyPowerup()
     {
-        if (_playerPowerupLocated == true)
+        GameObject powerupObj = GameObject.FindGameObjectWithTag("Powerup");
+        if (powerupObj != null)
         {
-            Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
-            _playerPowerupLocated = false;
+            var powerupPosition = powerupObj.transform.position - transform.position;
+            //Debug.Log(powerupPosition);
 
 
+            if (powerupPosition.x < 1.0)
+            {
+                if (_fireLaser)
+                {
+                    Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
+                    _fireLaser = false;
+                }
+
+            }
         }
+        
     }
 
     
-    private void EnemyShieldOff()
-    {
 
-    }
-
-    private void EnemyShieldOn()
-    {
-
-    }
 
 
 

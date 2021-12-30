@@ -134,3 +134,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _powerupID: 3
+  _explosionPrefab: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}

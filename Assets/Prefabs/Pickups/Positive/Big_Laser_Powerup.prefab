@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _powerupID: 6
+  _explosionPrefab: {fileID: 7745155343920954194, guid: ab2adde2b4878ff4eaa7938ad341d0c1, type: 3}
 --- !u!50 &1674725504526117334
 Rigidbody2D:
   serializedVersion: 4

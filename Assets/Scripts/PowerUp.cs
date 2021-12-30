@@ -5,7 +5,8 @@ public class PowerUp : MonoBehaviour
     private float _speed = 3.0f;
     [SerializeField]
     private int _powerupID;
-    private Enemy _laserEnemy;
+    [SerializeField]
+    private GameObject _explosionPrefab;
     private float _speedMultiplier = 1.0f;
     private Player _player;
     private Vector3 _direction = Vector3.down;
@@ -26,7 +27,6 @@ public class PowerUp : MonoBehaviour
     {
 
         Movement();
-        EnemyDetection();
         
 
 
@@ -42,6 +42,7 @@ public class PowerUp : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
+                
                 _direction = _player.transform.position - transform.position;
                 _speedMultiplier = 1.5f;
                 
@@ -105,24 +106,12 @@ public class PowerUp : MonoBehaviour
 
         if(other.tag == "Enemy_Laser")
         {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
             Destroy(GetComponent<Collider2D>());
             
         }
     }
 
-    void EnemyDetection()
-    {
-        if(_laserEnemy != null)
-        {
-            var enemyDistanceX = Mathf.Abs(_laserEnemy.transform.position.x - transform.position.x);
-            var enemyDistanceY = Mathf.Abs(_laserEnemy.transform.position.y - transform.position.y);
-
-            if (enemyDistanceX >= 0 && enemyDistanceY <= 4.0f)
-            {
-                _laserEnemy.PowerUpDetected();    
-            }
-        }
-    }
 
 }
