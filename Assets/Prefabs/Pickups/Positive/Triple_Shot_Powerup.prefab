@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _powerupID: 0
+  _explosionPrefab: {fileID: 2592035433266494752, guid: b38fdf098a71b02488acd6c1650be0b7, type: 3}
 --- !u!95 &7902068712207397942
 Animator:
   serializedVersion: 3

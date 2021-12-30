@@ -15,7 +15,6 @@ TagManager:
   - Enemy_Shield
   - Powerup
   - Audio_Manager
-  - Undefined
   - Player_Missile
   layers:
   - Default
