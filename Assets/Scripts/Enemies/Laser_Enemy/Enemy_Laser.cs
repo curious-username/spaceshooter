@@ -20,12 +20,9 @@ public class Enemy_Laser : MonoBehaviour
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if (transform.position.y <= -6)
+        if (transform.position.y <= -6 || transform.position.x > 10 || transform.position.x < -10)
         {
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
+
             Destroy(gameObject);
         }
     }

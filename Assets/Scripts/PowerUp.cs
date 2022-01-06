@@ -51,9 +51,9 @@ public class PowerUp : MonoBehaviour
             _speedMultiplier = 1.0f;
         }
 
-        if (transform.position.y < -3.8f)
+        if (transform.position.y < -3.8f || transform.position.y > 10 || transform.position.x > 10 || transform.position.x < -10)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -108,6 +108,7 @@ public class PowerUp : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+            Destroy(other.gameObject);
             Destroy(GetComponent<Collider2D>());
             
         }
