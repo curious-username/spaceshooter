@@ -197,7 +197,11 @@ public class Enemy : MonoBehaviour
 
         if (_randomNumber < 10)
         {
-            Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
+            if(transform.position.y < 7)
+            {
+                Instantiate(_EnemyLaserPrefab, transform.position, Quaternion.identity);
+            }
+            
             _enemyShield.SetActive(false);
             _isEnemyShieldActive = false;
         }
@@ -221,8 +225,6 @@ public class Enemy : MonoBehaviour
         if (powerupObj != null)
         {
             var powerupPosition = powerupObj.transform.position - transform.position;
-            //Debug.Log(powerupPosition);
-
 
             if (powerupPosition.x < 1.0)
             {

@@ -16,6 +16,8 @@ TagManager:
   - Powerup
   - Audio_Manager
   - Player_Missile
+  - Final_Boss
+  - Enemy_Big_Laser
   layers:
   - Default
   - TransparentFX
