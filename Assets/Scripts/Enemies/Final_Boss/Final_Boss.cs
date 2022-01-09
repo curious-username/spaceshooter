@@ -17,7 +17,6 @@ public class Final_Boss : MonoBehaviour
     private AudioSource _mainMusic, _bossIntro, _bossMusic, _bossBigLaserSound, _bossBlobAtkSound, _bossChargingSound;
     private int roundCounter, bigLaserCounter = 0;
     private Player _playerObj;
-    [SerializeField]
     private int _bossLife = 30;
     private SpriteRenderer _spriteR;
     private UIManager _uiManager;
