@@ -18,7 +18,7 @@ public class Final_Boss : MonoBehaviour
     private int roundCounter, bigLaserCounter = 0;
     private Player _playerObj;
     [SerializeField]
-    private int _bossLife = 1;
+    private int _bossLife = 30;
     private SpriteRenderer _spriteR;
     private UIManager _uiManager;
     private SpawnManager _spawnManager;
@@ -227,6 +227,34 @@ public class Final_Boss : MonoBehaviour
                 _spawnManager.OnBossDeath();
 
 
+            }
+        }
+        if(collision.tag == "Player_Missile")
+        {
+            _bossLife--;
+            Destroy(collision.gameObject);
+            StartCoroutine(DamageEffect());
+            if (_bossLife <= 0)
+            {
+                Instantiate(_explosion, transform.position, Quaternion.identity);
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+                _uiManager.BossKilled();
+                _spawnManager.OnBossDeath();
+            }
+        }
+        if(collision.tag == "Big_Laser")
+        {
+            _bossLife--;
+            Destroy(collision.gameObject);
+            StartCoroutine(DamageEffect());
+            if (_bossLife <= 0)
+            {
+                Instantiate(_explosion, transform.position, Quaternion.identity);
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+                _uiManager.BossKilled();
+                _spawnManager.OnBossDeath();
             }
         }
     }

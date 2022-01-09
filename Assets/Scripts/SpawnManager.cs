@@ -106,7 +106,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawn = new Vector3(_randomSpawnPosition, 7, 0);
 
             _randomPowerup = Random.Range(0, 4);
-
+            
 
             if (_powerupTier1Count > 3)
             {
@@ -116,7 +116,7 @@ public class SpawnManager : MonoBehaviour
             }
             else if (_powerupTier2Count > 3)
             {
-                Instantiate(_powerups[Random.Range(6, 7)], spawn, Quaternion.identity);
+                Instantiate(_powerups[Random.Range(6, 8)], spawn, Quaternion.identity);
                 _powerupTier2Count = 0;
             }
             else

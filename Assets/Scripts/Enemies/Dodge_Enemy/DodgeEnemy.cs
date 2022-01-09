@@ -6,9 +6,8 @@ public class DodgeEnemy : MonoBehaviour
 {
 
     private float _speed = 4.0f;
-    private bool _isPlayerLaserSpawned = false;
     private bool _fireLaser = true;
-    private Laser _playerLaser;
+    private GameObject _playerLaser;
     [SerializeField]
     private GameObject _enemyLaser, _explosionObject;
     private float _speedMultiplyer = 1.0f;
@@ -49,12 +48,15 @@ public class DodgeEnemy : MonoBehaviour
     {
 
         transform.Translate(_direction * Time.deltaTime * _speed * _speedMultiplyer);
-        if (_isPlayerLaserSpawned == true)
+        
+        _playerLaser = GameObject.FindGameObjectWithTag("Laser");
+
+        if (_playerLaser != null)
         {
-            _playerLaser = FindObjectOfType<Laser>();
-            if (_playerLaser != null)
-            {
-                var laserPosition = _playerLaser.transform.position - transform.position;
+            var laserPosition = _playerLaser.transform.position - transform.position;
+            Debug.Log(laserPosition);
+
+        
                 if (laserPosition.y > -3.0f)
                 {
                     _speedMultiplyer = 3.0f;
@@ -65,26 +67,27 @@ public class DodgeEnemy : MonoBehaviour
                     }
 
                     _direction = Vector3.right;
-
                 }
+            
 
-
-                if (laserPosition.x > 1.5f || laserPosition.x < -1.5f)
-                {
-                    _speedMultiplyer = 1.0f;
-                    _direction = Vector3.down;
-                }
-                _isPlayerLaserSpawned = false;
-
+            if (laserPosition.x > 1.5f || laserPosition.x < -1.5f)
+            {
+                _speedMultiplyer = 1.0f;
+                _direction = Vector3.down;
             }
         }
+        
 
-        if(transform.position.y <= -6f)
+
+        if (transform.position.y <= -6f)
         {
             Destroy(gameObject);
         }
-
     }
+
+
+
+    
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -130,13 +133,10 @@ public class DodgeEnemy : MonoBehaviour
         Destroy(gameObject);
 
     }
-
-    public void PlayerLaserSpawned()
-    {
-        _isPlayerLaserSpawned = true;
-    }
-
-
-
-
 }
+
+
+
+
+
+
