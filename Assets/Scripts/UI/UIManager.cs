@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
 
 
 
+
     void Start()
     {
 
@@ -63,6 +64,14 @@ public class UIManager : MonoBehaviour
 
 
         }
+    }
+
+    public void BossKilled()
+    {
+        _gameOverText.gameObject.SetActive(true);
+        _gameRestartText.gameObject.SetActive(true);
+        StartCoroutine(GameOverFlickerRoutine());
+        _gameManager.GameOver();
     }
 
     IEnumerator GameOverFlickerRoutine()
@@ -108,6 +117,7 @@ public class UIManager : MonoBehaviour
 
 
     }
+
 
 
 

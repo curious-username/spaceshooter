@@ -5,20 +5,17 @@ using UnityEngine;
 public class BossLaserPivot : MonoBehaviour
 {
     private GameObject Final_Boss;
-    private Final_Boss _finalBossComponents;
     Vector3 _direction = Vector3.down;
-    Vector3 _startingPosition;
-    bool _laserSweptRight, _laserReturned, _isWaitingActive = false;
-    bool _sweepRight = true;
+
     
     void Start()
     {
         Final_Boss = GameObject.Find("Final_Boss");
-        if(Final_Boss != null)
+        if(Final_Boss == null)
         {
-            _finalBossComponents = Final_Boss.GetComponent<Final_Boss>();
+            Debug.Log("Boss Weapon unable to find boss");
         }
-        _startingPosition = this.transform.position;
+        
     }
 
     // Update is called once per frame

@@ -4,32 +4,31 @@ using UnityEngine;
 
 public class Boss_Big_Laser : MonoBehaviour
 {
-
-    private Transform _pivot, _wacky;
-    //float rotationSpeed = 45;
-    //Vector3 currentEulerAngles;
-    Vector3 start = new Vector3(0, 0, -90f);
-    Vector3 end = new Vector3(0, 0, 75f);
-    float z;
+    Player _player;
+    
+    
     void Start()
     {
-        _pivot = GameObject.Find("PivotPoint").GetComponent<Transform>();
-        if(_pivot == null)
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        if(_player == null)
         {
-            Debug.Log("Unable to find boss");
+            Debug.Log("Unable to find player object");
         }
-        _wacky = GameObject.Find("WackyPivotPoint").GetComponent<Transform>();
     }
 
-    // Update is called once per frame
     void Update()
     {
           
-        _pivot.transform.RotateAround(_wacky.position, Vector3.up, -20);
-        _pivot.transform.LookAt(_wacky.position);
-        
+
 
     }
 
-    //transform. rotation Z = min(-90) to max (75)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            _player.Damage();
+        }
+    }
+
 }

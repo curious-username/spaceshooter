@@ -8,13 +8,24 @@ public class Final_Boss : MonoBehaviour
     private Vector3 _rotationVector = new Vector3(0, 0, 45f);
     private float _speed = 2.0f;
     [SerializeField]
-    private GameObject _enemyLaserPrefab, _slowDownPickupPrefab, _bigLaserPrefab, _bigLaserCharge;
-    private GameObject _weaponContainer;
+    private Sprite _boss, _bossDmg, _bossLifeAmt;
+    [SerializeField]
+    private GameObject _enemyLaserPrefab, _slowDownPickupPrefab, _bigLaserPrefab, _bigLaserCharge, _explosion;
+    private GameObject _weaponContainer, _player;
     private GameObject[] laserSpawn, _slowDownSpawn;
     private AudioSource[] _audioController;
     private AudioSource _mainMusic, _bossIntro, _bossMusic, _bossBigLaserSound, _bossBlobAtkSound, _bossChargingSound;
     private int roundCounter, bigLaserCounter = 0;
-    
+    private Player _playerObj;
+    [SerializeField]
+    private int _bossLife = 1;
+    private SpriteRenderer _spriteR;
+    private UIManager _uiManager;
+    private SpawnManager _spawnManager;
+
+
+
+
 
     //still need life of 30 for boss.
 
@@ -23,8 +34,26 @@ public class Final_Boss : MonoBehaviour
         AudioLabels();
         StartCoroutine(AudioControls());
         StartCoroutine(FireWeapons());
+        
+        _player = GameObject.Find("Player");
+        if(_player == null)
+        {
+            Debug.Log("Player not found");
+        }
+        
+        _spriteR = gameObject.GetComponent<SpriteRenderer>();
+        if(_spriteR == null)
+        {
+            Debug.Log("Boss Sprite Renderer not found");
+        }
 
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null)
+        {
+            Debug.LogError("Unable to find UI Manager");
+        }
 
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
     }
 
@@ -32,6 +61,7 @@ public class Final_Boss : MonoBehaviour
     void Update()
     {
         Movement();
+        
     }
 
 
@@ -173,9 +203,40 @@ public class Final_Boss : MonoBehaviour
         _bigLaserPrefab.SetActive(true);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            _playerObj = _player.GetComponent<Player>();
+            if(_playerObj != null)
+            {
+                _playerObj.Damage();
+            }
+        }
+        if(collision.tag == "Laser")
+        {
+            _bossLife--;
+            Destroy(collision.gameObject);
+            StartCoroutine(DamageEffect());
+            if (_bossLife <= 0)
+            {
+                Instantiate(_explosion, transform.position, Quaternion.identity);
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+                _uiManager.BossKilled();
+                _spawnManager.OnBossDeath();
 
-   
 
+            }
+        }
+    }
+
+    IEnumerator DamageEffect()
+    {
+        _spriteR.sprite = _bossDmg;
+        yield return new WaitForSeconds(0.03f);
+        _spriteR.sprite = _boss;
+    }
 
 
 

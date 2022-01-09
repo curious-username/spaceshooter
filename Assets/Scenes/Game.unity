@@ -1117,8 +1117,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377939138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0225, y: 1.09, z: 0}
-  m_LocalScale: {x: 1.266117, y: 1.0850362, z: 1.3876953}
+  m_LocalPosition: {x: -0.022500038, y: 1.0899997, z: 0}
+  m_LocalScale: {x: 1.266117, y: 1.0850362, z: 1.3876952}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -2285,7 +2285,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press the R key to restart the level
+  m_Text: Press the R key to play again
 --- !u!222 &1197594611
 CanvasRenderer:
   m_ObjectHideFlags: 0
