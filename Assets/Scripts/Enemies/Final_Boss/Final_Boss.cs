@@ -211,6 +211,7 @@ public class Final_Boss : MonoBehaviour
             {
                 _playerObj.Damage();
             }
+            
         }
         if(collision.tag == "Laser")
         {
